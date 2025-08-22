@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .resume-section {
+            transition: all 0.3s ease;
+        }
+        .resume-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .template-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .template-card:hover {
+            transform: scale(1.02);
+        }
+        .selected-template {
+            border: 2px solid #3b82f6;
+        }
+        .settings-panel {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+        .settings-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+        .settings-panel::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Main App Component
+        const App = () => {
+            const [currentView, setCurrentView] = useState('form');
+            const [resumeData, setResumeData] = useState({
+                personalInfo: {
+                    name: '',
+                    email: '',
+                    phone: '',
+                    address: '',
+                    linkedin: ''
+                },
+                education: [],
+                experience: [],
+                skills: []
+            });
+            const [selectedTemplate, setSelectedTemplate] = useState('professional');
+            const [settings, setSettings] = useState({
+                font: 'inter',
+                color: 'blue',
+                layout: 'single-column'
+            });
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    {/* Header */}
+                    <header className="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
+                        <div className="flex items-center">
+                            <i className="fas fa-file-alt text-blue-600 text-2xl mr-3"></i>
+                            <h1 className="text-xl font-bold text-gray-800">ResumeBuilder Pro</h1>
+                        </div>
+                        <nav className="flex space-x-6">
+                            <button 
+                                className={`px-3 py-2 rounded-md ${currentView === 'form' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
+                                onClick={() => setCurrentView('form')}
+                            >
+                                <i className="fas fa-edit mr-2"></i>Edit Resume
+                            </button>
+                            <button 
+                                className={`px-3 py-2 rounded-md ${currentView === 'templates' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
+                                onClick={() => setCurrentView('templates')}
+                            >
+                                <i className="fas fa-palette mr-2"></i>Templates
+                            </button>
+                            <button 
+                                className={`px-3 py-2 rounded-md ${currentView === 'preview' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
+                                onClick={() => setCurrentView('preview')}
+                            >
+                                <i className="fas fa-eye mr-2"></i>Preview
+                            </button>
+                            <button 
+                                className={`px-3 py-2 rounded-md ${currentView === 'settings' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
+                                onClick={() => setCurrentView('settings')}
+                            >
+                                <i className="fas fa-cog mr-2"></i>Settings
+                            </button>
+                        </nav>
+                        <div className="flex items-center">
+                            <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                                <i className="fas fa-user-circle mr-2"></i>Sign In
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="flex-1 container mx-auto p-6">
+                        {currentView === 'form' && (
+                            <ResumeForm resumeData={resumeData} setResumeData={setResumeData} />
+                        )}
+                        {currentView === 'templates' && (
+                            <TemplateSelector 
+                                selectedTemplate={selectedTemplate} 
+                                setSelectedTemplate={setSelectedTemplate} 
+                            />
+                        )}
+                        {currentView === 'preview' && (
+                            <TemplatePreview resumeData={resumeData} selectedTemplate={selectedTemplate} settings={settings} />
+                        )}
+                        {currentView === 'settings' && (
+                            <SettingsPanel settings={settings} setSettings={setSettings} />
+                        )}
+                    </main>
+
+                    {/* Footer */}
+                    <footer className="bg-gray-800 text-white py-6 px-6 text-center">
+                        <p>© 2023 ResumeBuilder Pro. All rights reserved.</p>
+                        <div className="mt-2 flex justify-center space-x-4">
+                            <span><i className="fas fa-sync-alt mr-1"></i> Auto-save</span>
+                            <span><i className="fas fa-robot mr-1"></i> AI Suggestions</span>
+                            <span><i className="fas fa-file-pdf mr-1"></i> PDF Export</span>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        // Resume Form Component
+        const ResumeForm = ({ resumeData, setResumeData }) => {
+            const [activeSection, setActiveSection] = useState('personal');
+
+            const updatePersonalInfo = (field, value) => {
+                setResumeData(prev => ({
+                    ...prev,
+                    personalInfo: {
+                        ...prev.personalInfo,
+                        [field]: value
+                    }
+                }));
+            };
+
+            const addEducation = () => {
+                setResumeData(prev => ({
+                    ...prev,
+                    education: [
+                        ...prev.education,
+                        { institution: '', degree: '', year: '' }
+                    ]
+                }));
+            };
+
+            const updateEducation = (index, field, value) => {
+                setResumeData(prev => {
+                    const newEducation = [...prev.education];
+                    newEducation[index] = {
+                        ...newEducation[index],
+                        [field]: value
+                    };
+                    return { ...prev, education: newEducation };
+                });
+            };
+
+            const addExperience = () => {
+                setResumeData(prev => ({
+                    ...prev,
+                    experience: [
+                        ...prev.experience,
+                        { company: '', position: '', duration: '', description: '' }
+                    ]
+                }));
+            };
+
+            const updateExperience = (index, field, value) => {
+                setResumeData(prev => {
+                    const newExperience = [...prev.experience];
+                    newExperience[index] = {
+                        ...newExperience[index],
+                        [field]: value
+                    };
+                    return { ...prev, experience: newExperience };
+                });
+            };
+
+            const addSkill = () => {
+                setResumeData(prev => ({
+                    ...prev,
+                    skills: [...prev.skills, '']
+                }));
+            };
+
+            const updateSkill = (index, value) => {
+                setResumeData(prev => {
+                    const newSkills = [...prev.skills];
+                    newSkills[index] = value;
+                    return { ...prev, skills: newSkills };
+                });
+            };
+
+            return (
+                <div className="bg-white rounded-lg shadow-md p-6">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Edit Your Resume</h2>
+                    
+                    <div className="flex mb-6">
+                        <button 
+                            className={`px-4 py-2 mr-2 rounded-t-md ${activeSection === 'personal' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                            onClick={() => setActiveSection('personal')}
+                        >
+                            Personal Info
+                        </button>
+                        <button 
+                            className={`px-4 py-2 mr-2 rounded-t-md ${activeSection === 'education' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                            onClick={() => setActiveSection('education')}
+                        >
+                            Education
+                        </button>
+                        <button 
+                            className={`px-4 py-2 mr-2 rounded-t-md ${activeSection === 'experience' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                            onClick={() => setActiveSection('experience')}
+                        >
+                            Experience
+                        </button>
+                        <button 
+                            className={`px-4 py-2 rounded-t-md ${activeSection === 'skills' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                            onClick={() => setActiveSection('skills')}
+                        >
+                            Skills
+                        </button>
+                    </div>
+
+                    <div className="resume-section bg-gray-50 p-6 rounded-md">
+                        {activeSection === 'personal' && (
+                            <div className="space-y-4">
+                                <h3 className="text-lg font-semibold text-gray-700">Personal Information</h3>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                        <input 
+                                            type="text" 
+                                            className="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                            value={resumeData.personalInfo.name}
+                                            onChange={(e) => updatePersonalInfo('name', e.target.value)}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                        <input 
+                                            type="email" 
+                                            className="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                            value={resumeData.personalInfo.email}
+                                            onChange={(e) => updatePersonalInfo('email', e.target.value)}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                        <input 
+                                            type="text" 
+                                            className="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                            value={resumeData.personalInfo.phone}
+                                            onChange={(e) => updatePersonalInfo('phone', e.target.value)}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                        <input 
+                                            type="text" 
+                                            className="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                            value={resumeData.personalInfo.address}
+                                            onChange={(e) => updatePersonalInfo('address', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="col-span-2">
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn</label>
+                                        <input 
+                                            type="url" 
+                                            className="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                            value={resumeData.personalInfo.linkedin}
+                                            onChange={(e) => updatePersonalInfo('linkedin', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeSection === 'education' && (
+                            <div className="space-y-4">
+                                <div className="flex justify-between items-center">
+                                    <h3 className="text-lg font-semibold text-gray-700">Education</h3>
+                                    <button 
+                                        className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"
+                                        onClick={addEducation}
+                                    >
+                                        <i className="fas fa-plus mr-1"></i> Add Education
+                                    </button>
+                                </div>
+                                {resumeData.education.map((edu, index) => (
+                                    <div key={index} className="p-4 border rounded-md bg-white">
+                                        <div className="grid grid-cols-2 gap-4 mb-3">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Institution</label>
+                                                <input 
+                                                    type="text" 
+                                                    className="w-full px-3 py-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                                    value={edu.institution}
+                                                    onChange={(e) => updateEducation(index, 'institution', e.target.value)}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Degree</label>
+                                                <input 
+                                                    type="text" 
+                                                    className="w-full px-3 py-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                                    value={edu.degree}
+                                                    onChange={(e) => updateEducation(index, 'degree', e.target.value)}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Year</label>
+                                                <input 
+                                                    type="text" 
+                                                    className="w-full px-3 py-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                                    value={edu.year}
+                                                    onChange={(e) => updateEducation(index, 'year', e.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                                {resumeData.education.length === 0 && (
+                                    <p className="text-gray-500 text-center py-4">No education entries yet. Click "Add Education" to get started.</p>
+                                )}
+                            </div>
+                        )}
+
+                        {activeSection === 'experience' && (
+                            <div className="space-y-4">
+                                <div className="flex justify-between items-center">
+                                    <h3 className="text-lg font-semibold text-gray-700">Work Experience</h3>
+                                    <button 
+                                        className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"
+                                        onClick={addExperience}
+                                    >
+                                        <i className="fas fa-plus mr-1"></i> Add Experience
+                                    </button>
+                                </div>
+                                {resumeData.experience.map((exp, index) => (
+                                    <div key={index} className="p-4 border rounded-md bg-white">
+                                        <div className="grid grid-cols-2 gap-4 mb-3">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                                                <input 
+                                                    type="text" 
+                                                    className="w-full px-3 py-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                                    value={exp.company}
+                                                    onChange={(e) => updateExperience(index, 'company', e.target.value)}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Position</label>
+                                                <input 
+                                                    type="text" 
+                                                    className="w-full px-3 py-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                                    value={exp.position}
+                                                    onChange={(e) => updateExperience(index, 'position', e.target.value)}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Duration</label>
+                                                <input 
+                                                    type="text" 
+                                                    className="w-full px-3 py-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                                    value={exp.duration}
+                                                    onChange={(e) => updateExperience(index, 'duration', e.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                            <textarea 
+                                                className="w-full px-3 py-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                                rows="3"
+                                                value={exp.description}
+                                                onChange={(e) => updateExperience(index, 'description', e.target.value)}
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                ))}
+                                {resumeData.experience.length === 0 && (
+                                    <p className="text-gray-500 text-center py-4">No experience entries yet. Click "Add Experience" to get started.</p>
+                                )}
+                            </div>
+                        )}
+
+                        {activeSection === 'skills' && (
+                            <div className="space-y-4">
+                                <div className="flex justify-between items-center">
+                                    <h3 className="text-lg font-semibold text-gray-700">Skills</h3>
+                                    <button 
+                                        className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"
+                                        onClick={addSkill}
+                                    >
+                                        <i className="fas fa-plus mr-1"></i> Add Skill
+                                    </button>
+                                </div>
+                                <div className="grid grid-cols-3 gap-3">
+                                    {resumeData.skills.map((skill, index) => (
+                                        <div key={index} className="p-3 border rounded-md bg-white">
+                                            <input 
+                                                type="text" 
+                                                className="w-full px-3 py-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                                value={skill}
+                                                onChange={(e) => updateSkill(index, e.target.value)}
+                                                placeholder="Skill name"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                {resumeData.skills.length === 0 && (
+                                    <p className="text-gray-500 text-center py-4">No skills added yet. Click "Add Skill" to get started.</p>
+                                )}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="mt-6 flex justify-between">
+                        <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
+                            <i className="fas fa-times mr-2"></i> Cancel
+                        </button>
+                        <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                            <i className="fas fa-save mr-2"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        // Template Selector Component
+        const TemplateSelector = ({ selectedTemplate, setSelectedTemplate }) => {
+            const templates = [
+                { id: 'professional', name: 'Professional', color: 'bg-blue-200' },
+                { id: 'modern', name: 'Modern', color: 'bg-green-200' },
+                { id: 'creative', name: 'Creative', color: 'bg-purple-200' },
+                { id: 'minimalist', name: 'Minimalist', color: 'bg-gray-200' },
+                { id: 'academic', name: 'Academic', color: 'bg-red-200' },
+                { id: 'executive', name: 'Executive', color: 'bg-yellow-200' }
+            ];
+
+            return (
+                <div className="bg-white rounded-lg shadow-md p-6">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Choose a Template</h2>
+                    
+                    <div className="grid grid-cols-3 gap-6">
+                        {templates.map(template => (
+                            <div 
+                                key={template.id}
+                                className={`template-card p-4 rounded-lg cursor-pointer border-2 ${selectedTemplate === template.id ? 'selected-template border-blue-500' : 'border-gray-200'}`}
+                                onClick={() => setSelectedTemplate(template.id)}
+                            >
+                                <div className={`${template.color} h-40 rounded-md flex items-center justify-center mb-3`}>
+                                    <span className="text-gray-700 font-medium">{template.name}</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <h3 className="font-medium text-gray-800">{template.name}</h3>
+                                    {selectedTemplate === template.id && (
+                                        <span className="text-green-600">
+                                            <i className="fas fa-check-circle"></i> Selected
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="mt-8 bg-blue-50 p-4 rounded-md">
+                        <h3 className="font-semibold text-blue-800 mb-2">Selected Template: {templates.find(t => t.id === selectedTemplate).name}</h3>
+                        <p className="text-blue-700">This template is optimized for ATS (Applicant Tracking Systems) and professional settings.</p>
+                    </div>
+                </div>
+            );
+        };
+
+        // Template Preview Component
+        const TemplatePreview = ({ resumeData, selectedTemplate, settings }) => {
+            const downloadPDF = () => {
+                alert("PDF download functionality would be implemented here. This might connect to a backend service to generate the PDF.");
+            };
+
+            return (
+                <div className="bg-white rounded-lg shadow-md p-6">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-gray-800">Resume Preview</h2>
+                        <button 
+                            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                            onClick={downloadPDF}
+                        >
+                            <i className="fas fa-file-pdf mr-2"></i> Download PDF
+                        </button>
+                    </div>
+
+                    <div className="border-2 border-gray-300 p-8 rounded-md bg-white">
+                        {/* Preview content based on selected template */}
+                        <div className={`preview-container ${settings.font === 'inter' ? 'font-sans' : settings.font === 'serif' ? 'font-serif' : 'font-mono'} ${settings.color === 'blue' ? 'text-blue-900' : settings.color === 'green' ? 'text-green-900' : 'text-gray-900'}`}>
+                            <div className="text-center mb-8">
+                                <h1 className="text-3xl font-bold">{resumeData.personalInfo.name || "Your Name"}</h1>
+                                <div className="flex justify-center space-x-4 mt-2 text-gray-600">
+                                    <span>{resumeData.personalInfo.email || "email@example.com"}</span>
+                                    <span>•</span>
+                                    <span>{resumeData.personalInfo.phone || "(123) 456-7890"}</span>
+                                    <span>•</span>
+                                    <span>{resumeData.personalInfo.address || "City, State"}</span>
+                                </div>
+                                {resumeData.personalInfo.linkedin && (
+                                    <div className="mt-1">
+                                        <span className="text-blue-600">LinkedIn: {resumeData.personalInfo.linkedin}</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="mb-6">
+                                <h2 className="text-xl font-semibold border-b-2 border-gray-300 pb-1">Education</h2>
+                                {resumeData.education.length > 0 ? (
+                                    resumeData.education.map((edu, index) => (
+                                        <div key={index} className="my-4">
+                                            <div className="flex justify-between">
+                                                <h3 className="font-medium">{edu.institution || "Institution Name"}</h3>
+                                                <span className="text-gray-600">{edu.year || "Years"}</span>
+                                            </div>
+                                            <p className="text-gray-600">{edu.degree || "Degree/Certificate"}</p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="my-4 text-gray-500">No education information added yet.</p>
+                                )}
+                            </div>
+
+                            <div className="mb-6">
+                                <h2 className="text-xl font-semibold border-b-2 border-gray-300 pb-1">Experience</h2>
+                                {resumeData.experience.length > 0 ? (
+                                    resumeData.experience.map((exp, index) => (
+                                        <div key={index} className="my-4">
+                                            <div className="flex justify-between">
+                                                <h3 className="font-medium">{exp.company || "Company Name"}</h3>
+                                                <span className="text-gray-600">{exp.duration || "Duration"}</span>
+                                            </div>
+                                            <p className="font-medium text-gray-700">{exp.position || "Position"}</p>
+                                            <p className="mt-1 text-gray-600">{exp.description || "Description of your responsibilities and achievements."}</p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="my-4 text-gray-500">No work experience added yet.</p>
+                                )}
+                            </div>
+
+                            <div>
+                                <h2 className="text-xl font-semibold border-b-2 border-gray-300 pb-1">Skills</h2>
+                                <div className="flex flex-wrap gap-2 my-4">
+                                    {resumeData.skills.length > 0 ? (
+                                        resumeData.skills.map((skill, index) => (
+                                            <span key={index} className="px-3 py-1 bg-gray-100 rounded-md text-gray-700">
+                                                {skill || "Skill"}
+                                            </span>
+                                        ))
+                                    ) : (
+                                        <p className="text-gray-500">No skills added yet.</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 bg-gray-100 p-4 rounded-md">
+                        <h3 className="font-semibold text-gray-800">Preview Notes</h3>
+                        <p className="text-gray-600">This is how your resume will look with the "{selectedTemplate}" template. You can customize the fonts, colors, and layout in the Settings panel.</p>
+                    </div>
+                </div>
+            );
+        };
+
+        // Settings Panel Component
+        const SettingsPanel = ({ settings, setSettings }) => {
+            const updateSetting = (field, value) => {
+                setSettings(prev => ({
+                    ...prev,
+                    [field]: value
+                }));
+            };
+
+            return (
+                <div className="bg-white rounded-lg shadow-md p-6">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Resume Settings</h2>
+                    
+                    <div className="grid grid-cols-2 gap-6">
+                        <div className="settings-panel bg-gray-50 p-5 rounded-md overflow-y-auto max-h-96">
+                            <h3 className="text-lg font-semibold text-gray-700 mb-4">Font Settings</h3>
+                            <div className="space-y-4">
+                                {['inter', 'serif', 'mono'].map(font => (
+                                    <div key={font} className="flex items-center">
+                                        <input 
+                                            type="radio" 
+                                            id={`font-${font}`}
+                                            name="font" 
+                                            value={font}
+                                            checked={settings.font === font}
+                                            onChange={() => updateSetting('font', font)}
+                                            className="mr-2"
+                                        />
+                                        <label htmlFor={`font-${font}`} className={`cursor-pointer ${font === 'inter' ? 'font-sans' : font === 'serif' ? 'font-serif' : 'font-mono'}`}>
+                                            {font.charAt(0).toUpperCase() + font.slice(1)} Font
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <h3 className="text-lg font-semibold text-gray-700 mt-6 mb-4">Color Scheme</h3>
+                            <div className="grid grid-cols-3 gap-3">
+                                {['blue', 'green', 'gray'].map(color => (
+                                    <div 
+                                        key={color}
+                                        className={`h-12 rounded-md cursor-pointer border-2 ${settings.color === color ? 'border-gray-800' : 'border-gray-300'}`}
+                                        style={{ backgroundColor: color === 'blue' ? '#dbeafe' : color === 'green' ? '#d1fae5' : '#f3f4f6' }}
+                                        onClick={() => updateSetting('color', color)}
+                                    >
+                                        <div className="h-full flex items-center justify-center">
+                                            <span className="text-xs font-medium">{color.charAt(0).toUpperCase() + color.slice(1)}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <h3 className="text-lg font-semibold text-gray-700 mt-6 mb-4">Layout</h3>
+                            <div className="space-y-3">
+                                {['single-column', 'two-column', 'compact'].map(layout => (
+                                    <div key={layout} className="flex items-center">
+                                        <input 
+                                            type="radio" 
+                                            id={`layout-${layout}`}
+                                            name="layout" 
+                                            value={layout}
+                                            checked={settings.layout === layout}
+                                            onChange={() => updateSetting('layout', layout)}
+                                            className="mr-2"
+                                        />
+                                        <label htmlFor={`layout-${layout}`} className="cursor-pointer">
+                                            {layout.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="bg-gray-800 text-white p-5 rounded-md">
+                            <h3 className="text-lg font-semibold mb-4">Future Features</h3>
+                            <ul className="space-y-3">
+                                <li className="flex items-start">
+                                    <i className="fas fa-robot text-purple-400 mt-1 mr-2"></i>
+                                    <div>
+                                        <h4 className="font-medium">AI Suggestions</h4>
+                                        <p className="text-sm text-gray-300">Get AI-powered suggestions to improve your resume content.</p>
+                                    </div>
+                                </li>
+                                <li className="flex items-start">
+                                    <i className="fas fa-sync-alt text-green-400 mt-1 mr-2"></i>
+                                    <div>
+                                        <h4 className="font-medium">Auto-save</h4>
+                                        <p className="text-sm text-gray-300">Your progress is automatically saved as you work.</p>
+                                    </div>
+                                </li>
+                                <li className="flex items-start">
+                                    <i className="fas fa-copy text-yellow-400 mt-1 mr-2"></i>
+                                    <div>
+                                        <h4 className="font-medium">Multi-page Resumes</h4>
+                                        <p className="text-sm text-gray-300">Create multi-page resumes for extensive experience.</p>
+                                    </div>
+                                </li>
+                                <li className="flex items-start">
+                                    <i className="fas fa-cloud text-blue-400 mt-1 mr-2"></i>
+                                    <div>
+                                        <h4 className="font-medium">Cloud Storage</h4>
+                                        <p className="text-sm text-gray-300">Save multiple resumes to your account and access them anywhere.</p>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <div className="mt-6 pt-4 border-t border-gray-700">
+                                <h3 className="text-lg font-semibold mb-2">Account</h3>
+                                <p className="text-sm text-gray-300">Sign in to access your saved resumes across devices.</p>
+                                <button className="mt-3 px-4 py-2 bg-blue-600 rounded-md hover:bg-blue-700 w-full">
+                                    <i className="fas fa-sign-in-alt mr-2"></i> Sign In
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
