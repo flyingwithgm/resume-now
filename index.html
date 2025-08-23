@@ -12,29 +12,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #7c3aed;
-            --accent: #0ea5e9;
-            --light: #f8fafc;
-            --dark: #0f172a;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4ade80;
+            --warning: #facc15;
+            --danger: #f87171;
             --border: #e2e8f0;
             --card-bg: #ffffff;
             --text-primary: #1e293b;
             --text-secondary: #64748b;
             --background: #f1f5f9;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05);
-            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.05);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
         }
         .dark-mode {
-            --primary: #3b82f6;
-            --primary-dark: #2563eb;
+            --primary: #5e72e4;
+            --primary-dark: #4a5fd9;
             --secondary: #8b5cf6;
             --accent: #38bdf8;
             --light: #1e293b;
@@ -44,10 +41,7 @@
             --text-primary: #f1f5f9;
             --text-secondary: #cbd5e1;
             --background: #020617;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
-            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.2);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
         }
         * {
             margin: 0;
@@ -69,13 +63,12 @@
         /* Header Styles */
         header {
             background: var(--card-bg);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow);
             padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
             transition: var(--transition);
-            border-bottom: 1px solid var(--border);
         }
         .header-content {
             display: flex;
@@ -84,17 +77,14 @@
         }
         .logo {
             font-size: 1.8rem;
-            font-weight: 800;
+            font-weight: 700;
             color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
         .logo i {
             color: var(--secondary);
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
         .auth-buttons {
             display: flex;
@@ -107,9 +97,8 @@
             gap: 12px;
             background: var(--light);
             padding: 8px 16px;
-            border-radius: 50px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
         }
         .user-avatar {
             width: 36px;
@@ -125,7 +114,7 @@
         }
         .theme-toggle {
             background: var(--light);
-            border: 1px solid var(--border);
+            border: none;
             width: 44px;
             height: 44px;
             border-radius: 50%;
@@ -135,7 +124,7 @@
             cursor: pointer;
             color: var(--text-primary);
             transition: var(--transition);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow);
         }
         .theme-toggle:hover {
             background: var(--primary);
@@ -153,23 +142,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-        }
-        .btn:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-        .btn:hover:after {
-            transform: translateX(100%);
+            box-shadow: var(--shadow);
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -178,7 +151,7 @@
         .btn-primary:hover {
             background: linear-gradient(135deg, var(--primary-dark), #6d28d9);
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
         }
         .btn-outline {
             background: transparent;
@@ -235,7 +208,7 @@
         .card {
             background: var(--card-bg);
             border-radius: 16px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow);
             padding: 30px;
             margin-bottom: 25px;
             transition: var(--transition);
@@ -243,7 +216,7 @@
         }
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-xl);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
         .card-title {
             font-size: 1.5rem;
@@ -276,12 +249,11 @@
             transition: var(--transition);
             background: var(--light);
             color: var(--text-primary);
-            box-shadow: var(--shadow-sm);
         }
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
         }
         textarea.form-control {
             min-height: 140px;
@@ -336,12 +308,10 @@
             position: relative;
             border: 1px solid var(--border);
             transition: var(--transition);
-            box-shadow: var(--shadow-sm);
         }
         .experience-item:hover, .education-item:hover {
             transform: translateX(8px);
             border-color: var(--primary);
-            box-shadow: var(--shadow-md);
         }
         .remove-item {
             position: absolute;
@@ -381,7 +351,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 3px 8px rgba(67, 97, 238, 0.2);
         }
         /* Template Selector */
         .template-grid {
@@ -397,7 +367,6 @@
             transition: var(--transition);
             background: var(--light);
             position: relative;
-            box-shadow: var(--shadow-md);
         }
         .template-item:hover {
             transform: translateY(-8px);
@@ -406,7 +375,7 @@
         }
         .template-item.active {
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.3);
         }
         .template-preview {
             height: 140px;
@@ -457,14 +426,14 @@
         .preview-box {
             background: white;
             border-radius: 16px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow);
             padding: 35px;
             min-height: 850px;
             border: 1px solid var(--border);
             transition: var(--transition);
         }
         .preview-box:hover {
-            box-shadow: var(--shadow-xl);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
         }
         /* Resume Templates */
         .resume-template {
@@ -484,7 +453,7 @@
             text-align: center;
             margin-bottom: 35px;
             padding-bottom: 25px;
-            border-bottom: 4px solid #2563eb;
+            border-bottom: 4px solid #4361ee;
         }
         .apollo-name {
             font-size: 2.8rem;
@@ -509,7 +478,7 @@
         .apollo-section-title {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #2563eb;
+            color: #4361ee;
             margin: 35px 0 25px;
             padding-bottom: 12px;
             border-bottom: 3px solid #cbd5e1;
@@ -522,14 +491,14 @@
             left: 0;
             width: 100px;
             height: 3px;
-            background: #2563eb;
+            background: #4361ee;
         }
         .apollo-experience-item, .apollo-education-item {
             margin-bottom: 30px;
             padding: 25px;
             background: rgba(255, 255, 255, 0.8);
             border-radius: 12px;
-            border-left: 5px solid #2563eb;
+            border-left: 5px solid #4361ee;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
         .apollo-job-title {
@@ -778,11 +747,10 @@
             border-radius: 0 12px 12px 0;
             margin-bottom: 20px;
             transition: var(--transition);
-            box-shadow: var(--shadow-sm);
         }
         .ai-suggestion:hover {
             transform: translateX(10px);
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
         .ai-suggestion-header {
             display: flex;
@@ -811,12 +779,11 @@
             align-items: center;
             gap: 8px;
             font-weight: 600;
-            box-shadow: var(--shadow-md);
         }
         .ai-improve-btn:hover {
             background: linear-gradient(135deg, var(--primary-dark), #6d28d9);
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
         }
         /* Saved Resumes */
         .resume-list {
@@ -833,10 +800,9 @@
             justify-content: space-between;
             align-items: center;
             transition: var(--transition);
-            background: var(--light);
         }
         .resume-item:hover {
-            background: rgba(37, 99, 235, 0.05);
+            background: var(--light);
             transform: translateX(8px);
             border-color: var(--primary);
         }
@@ -855,7 +821,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            box-shadow: var(--shadow-sm);
         }
         .load-btn {
             background: linear-gradient(135deg, var(--primary), var(--accent));
@@ -864,7 +829,6 @@
         .load-btn:hover {
             background: linear-gradient(135deg, var(--primary-dark), #0ea5e9);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
         }
         .delete-btn {
             background: linear-gradient(135deg, #ef4444, #f97316);
@@ -873,7 +837,6 @@
         .delete-btn:hover {
             background: linear-gradient(135deg, #dc2626, #ea580c);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
         }
         /* Auth Modal */
         .modal {
@@ -1011,7 +974,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            background: linear-gradient(135deg, #4361ee, #7209b7);
             padding: 20px;
             transition: var(--transition);
         }
@@ -1569,6 +1532,9 @@
             const password = document.getElementById('login-password').value;
             try {
                 await auth.signInWithEmailAndPassword(email, password);
+                // Redirect to main app after successful login
+                loginPage.style.display = 'none';
+                app.style.display = 'block';
                 showToast('Signed in successfully', 'success');
             } catch (error) {
                 showToast(error.message, 'error');
@@ -1583,11 +1549,18 @@
                 if (isSignUp) {
                     await auth.createUserWithEmailAndPassword(email, password);
                     showToast('Account created successfully', 'success');
+                    // Redirect to main app after successful signup
+                    authModal.style.display = 'none';
+                    loginPage.style.display = 'none';
+                    app.style.display = 'block';
                 } else {
                     await auth.signInWithEmailAndPassword(email, password);
                     showToast('Signed in successfully', 'success');
+                    // Redirect to main app after successful login
+                    authModal.style.display = 'none';
+                    loginPage.style.display = 'none';
+                    app.style.display = 'block';
                 }
-                authModal.style.display = 'none';
             } catch (error) {
                 showToast(error.message, 'error');
             }
