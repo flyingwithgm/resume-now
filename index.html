@@ -9,6 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #2563eb;
@@ -21,54 +22,122 @@
             --danger: #ef4444;
             --border: #e2e8f0;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --background: #f1f5f9;
         }
-        
+
+        .dark-mode {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #94a3b8;
+            --light: #1e293b;
+            --dark: #f1f5f9;
+            --border: #334155;
+            --card-bg: #0f172a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --background: #020617;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9;
-            color: var(--dark);
+            background-color: var(--background);
+            color: var(--text-primary);
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
-        
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
-        
+
         /* Header Styles */
         header {
-            background: white;
+            background: var(--card-bg);
             box-shadow: var(--shadow);
             padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: all 0.3s ease;
         }
-        
+
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
+
+        .logo i {
+            color: var(--primary);
+        }
+
         .auth-buttons {
             display: flex;
             gap: 10px;
+            align-items: center;
         }
-        
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--light);
+            padding: 8px 15px;
+            border-radius: 30px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .theme-toggle {
+            background: var(--light);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+        }
+
         .btn {
             padding: 10px 20px;
             border-radius: 6px;
@@ -77,46 +146,51 @@
             transition: all 0.3s ease;
             border: none;
             font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        
+
         .btn-primary {
             background: var(--primary);
             color: white;
         }
-        
+
         .btn-primary:hover {
             background: var(--primary-dark);
+            transform: translateY(-2px);
         }
-        
+
         .btn-outline {
             background: transparent;
             border: 1px solid var(--primary);
             color: var(--primary);
         }
-        
+
         .btn-outline:hover {
             background: var(--primary);
             color: white;
         }
-        
+
         .btn-success {
             background: var(--success);
             color: white;
         }
-        
+
         .btn-success:hover {
             opacity: 0.9;
+            transform: translateY(-2px);
         }
-        
+
         .btn-danger {
             background: var(--danger);
             color: white;
         }
-        
+
         .btn-danger:hover {
             opacity: 0.9;
         }
-        
+
         /* Main Layout */
         .main-layout {
             display: grid;
@@ -124,113 +198,137 @@
             gap: 20px;
             margin-top: 20px;
         }
-        
+
         @media (max-width: 1200px) {
             .main-layout {
                 grid-template-columns: 1fr 1fr;
             }
-            
             .sidebar-right {
                 grid-column: span 2;
             }
         }
-        
+
         @media (max-width: 768px) {
             .main-layout {
                 grid-template-columns: 1fr;
             }
-            
             .sidebar-right {
                 grid-column: span 1;
             }
         }
-        
+
         /* Form Sections */
         .card {
-            background: white;
-            border-radius: 10px;
+            background: var(--card-bg);
+            border-radius: 15px;
             box-shadow: var(--shadow);
             padding: 25px;
             margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
         }
-        
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
         .card-title {
             font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-            color: var(--dark);
+            border-bottom: 2px solid var(--primary);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: var(--secondary);
+            color: var(--text-secondary);
         }
-        
+
         .form-control {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
-            transition: border 0.3s ease;
+            transition: all 0.3s ease;
+            background: var(--light);
+            color: var(--text-primary);
         }
-        
+
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
-        
+
         textarea.form-control {
             min-height: 120px;
             resize: vertical;
         }
-        
+
         .section-tabs {
             display: flex;
             border-bottom: 1px solid var(--border);
             margin-bottom: 20px;
+            overflow-x: auto;
         }
-        
+
         .tab {
             padding: 12px 20px;
             cursor: pointer;
             font-weight: 500;
-            color: var(--secondary);
+            color: var(--text-secondary);
             border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
-        
+
         .tab.active {
             color: var(--primary);
             border-bottom: 3px solid var(--primary);
         }
-        
+
         .tab-content {
             display: none;
         }
-        
+
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.3s ease;
         }
-        
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .experience-item, .education-item {
             background: var(--light);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 20px;
             margin-bottom: 15px;
             position: relative;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
         }
-        
+
+        .experience-item:hover, .education-item:hover {
+            transform: translateX(5px);
+        }
+
         .remove-item {
             position: absolute;
             top: 15px;
@@ -246,370 +344,588 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            transition: all 0.3s ease;
         }
-        
+
+        .remove-item:hover {
+            transform: scale(1.1);
+        }
+
         .skills-container {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin-top: 15px;
         }
-        
+
         .skill-tag {
             background: var(--primary);
             color: white;
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-        
+
         /* Template Selector */
         .template-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
         }
-        
+
         .template-item {
             border: 2px solid var(--border);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
+            background: var(--light);
         }
-        
+
         .template-item:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow);
         }
-        
+
         .template-item.active {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
-        
+
         .template-preview {
             height: 120px;
-            background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: var(--secondary);
+            color: var(--text-secondary);
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .template-preview::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--success));
+            opacity: 0.1;
+        }
+
         .template-name {
             padding: 12px;
             text-align: center;
             font-weight: 500;
-            background: white;
+            background: var(--card-bg);
+            color: var(--text-primary);
         }
-        
+
+        .template-type {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: block;
+        }
+
         /* Preview Section */
         .preview-container {
             position: sticky;
             top: 90px;
         }
-        
+
         .preview-actions {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
-        
+
         .preview-box {
             background: white;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: var(--shadow);
             padding: 30px;
             min-height: 800px;
+            border: 1px solid var(--border);
         }
-        
+
         /* Resume Templates */
         .resume-template {
             font-family: 'Inter', sans-serif;
             color: #333;
             line-height: 1.6;
         }
-        
+
         /* Apollo Template */
         .template-apollo {
             font-family: 'Inter', sans-serif;
-            background: white;
+            background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
             padding: 40px;
-            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            border: 1px solid #cbd5e1;
         }
-        
+
         .apollo-header {
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 2px solid #2563eb;
+            border-bottom: 3px solid #2563eb;
         }
-        
+
         .apollo-name {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .apollo-contact {
+            font-size: 1.1rem;
+            color: #64748b;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .apollo-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .apollo-section-title {
+            font-size: 1.6rem;
             font-weight: 700;
+            color: #2563eb;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #cbd5e1;
+            position: relative;
+        }
+
+        .apollo-section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: #2563eb;
+        }
+
+        .apollo-experience-item, .apollo-education-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .apollo-job-title {
+            font-weight: 700;
+            font-size: 1.3rem;
             color: #1e293b;
             margin-bottom: 5px;
         }
-        
-        .apollo-contact {
-            font-size: 1rem;
-            color: #64748b;
-        }
-        
-        .apollo-section-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #2563eb;
-            margin: 25px 0 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #cbd5e1;
-        }
-        
-        .apollo-experience-item, .apollo-education-item {
-            margin-bottom: 20px;
-        }
-        
-        .apollo-job-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #1e293b;
-        }
-        
+
         .apollo-company {
-            font-weight: 500;
+            font-weight: 600;
             color: #475569;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
         }
-        
+
         .apollo-date {
             color: #64748b;
-            font-size: 0.9rem;
-        }
-        
-        .apollo-description {
-            margin-top: 8px;
-            color: #334155;
-        }
-        
-        .apollo-skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .apollo-skill {
-            background: #dbeafe;
-            color: #1d4ed8;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-        
-        /* Terra Template */
-        .template-terra {
-            font-family: 'Open Sans', sans-serif;
-            background: #f8fafc;
-            padding: 40px;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .terra-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #059669;
-        }
-        
-        .terra-name {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #0f172a;
-        }
-        
-        .terra-contact {
-            text-align: right;
-            color: #64748b;
-        }
-        
-        .terra-section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #059669;
-            margin: 30px 0 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .terra-experience-item, .terra-education-item {
-            margin-bottom: 25px;
-            position: relative;
-            padding-left: 20px;
-        }
-        
-        .terra-experience-item:before, .terra-education-item:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 8px;
-            width: 8px;
-            height: 8px;
-            background: #059669;
-            border-radius: 50%;
-        }
-        
-        .terra-job-title {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #0f172a;
-        }
-        
-        .terra-company {
-            font-weight: 600;
-            color: #475569;
-        }
-        
-        .terra-date {
-            color: #64748b;
             font-size: 0.95rem;
+            margin-bottom: 10px;
         }
-        
-        .terra-description {
+
+        .apollo-description {
             margin-top: 10px;
             color: #334155;
+            line-height: 1.7;
         }
-        
-        .terra-skills {
+
+        .apollo-skills {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             margin-top: 15px;
         }
-        
+
+        .apollo-skill {
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Terra Template */
+        .template-terra {
+            font-family: 'Open Sans', sans-serif;
+            background: #f0fdf4;
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid #bbf7d0;
+        }
+
+        .terra-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 4px solid #059669;
+        }
+
+        .terra-name {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -1px;
+        }
+
+        .terra-contact {
+            text-align: right;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .terra-section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #059669;
+            margin: 40px 0 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .terra-section-title::before {
+            content: "■";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #059669;
+        }
+
+        .terra-experience-item, .terra-education-item {
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            border: 1px solid #bbf7d0;
+        }
+
+        .terra-experience-item:before, .terra-education-item:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 30px;
+            width: 12px;
+            height: 12px;
+            background: #059669;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.2);
+        }
+
+        .terra-job-title {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #0f172a;
+            margin-bottom: 5px;
+        }
+
+        .terra-company {
+            font-weight: 600;
+            color: #475569;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .terra-date {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .terra-description {
+            margin-top: 15px;
+            color: #334155;
+            line-height: 1.8;
+        }
+
+        .terra-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
         .terra-skill {
             background: #dcfce7;
             color: #047857;
-            padding: 6px 15px;
-            border-radius: 4px;
-            font-size: 0.95rem;
-            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        
+
         /* Tempe Template */
         .template-tempe {
             font-family: 'Merriweather', serif;
-            background: white;
-            padding: 40px;
-            border: 1px solid #e2e8f0;
+            background: #f5f3ff;
+            padding: 50px;
+            border-radius: 15px;
+            border: 1px solid #ddd6fe;
         }
-        
+
         .tempe-header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px double #7c3aed;
         }
-        
+
         .tempe-name {
-            font-size: 2.8rem;
-            font-weight: 700;
+            font-size: 3rem;
+            font-weight: 800;
             color: #0f172a;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
         }
-        
+
         .tempe-contact {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #64748b;
             font-style: italic;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
-        
+
         .tempe-section-title {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: #4338ca;
-            margin: 35px 0 25px;
+            color: #7c3aed;
+            margin: 45px 0 30px;
             text-align: center;
             position: relative;
         }
-        
+
         .tempe-section-title:after {
             content: "";
             display: block;
-            width: 80px;
-            height: 3px;
-            background: #4338ca;
-            margin: 10px auto;
+            width: 100px;
+            height: 4px;
+            background: #7c3aed;
+            margin: 15px auto;
+            border-radius: 2px;
         }
-        
+
         .tempe-experience-item, .tempe-education-item {
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            border: 2px solid #c4b5fd;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
-        
+
         .tempe-job-title {
-            font-weight: 700;
-            font-size: 1.3rem;
+            font-weight: 800;
+            font-size: 1.5rem;
             color: #0f172a;
+            margin-bottom: 8px;
         }
-        
+
         .tempe-company {
             font-weight: 600;
             font-style: italic;
             color: #475569;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
         }
-        
+
         .tempe-date {
             color: #64748b;
-            font-size: 1rem;
-            margin: 5px 0;
+            font-size: 1.1rem;
+            margin: 10px 0;
+            font-weight: 500;
         }
-        
+
         .tempe-description {
-            margin-top: 12px;
+            margin-top: 15px;
             color: #334155;
-            line-height: 1.8;
+            line-height: 1.9;
+            font-size: 1.05rem;
         }
-        
+
         .tempe-skills {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 18px;
+            margin-top: 25px;
         }
-        
+
         .tempe-skill {
             background: #e0e7ff;
             color: #3730a3;
-            padding: 8px 18px;
+            padding: 12px 25px;
             border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Aurora Template */
+        .template-aurora {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 15px;
+            color: white;
+        }
+
+        .aurora-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .aurora-name {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .aurora-contact {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .aurora-section-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin: 35px 0 25px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .aurora-section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 2px;
+        }
+
+        .aurora-experience-item, .aurora-education-item {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .aurora-job-title {
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .aurora-company {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .aurora-date {
             font-size: 1rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .aurora-description {
+            margin-top: 15px;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+
+        .aurora-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .aurora-skill {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.95rem;
             font-weight: 500;
         }
-        
+
         /* AI Suggestions */
         .ai-suggestion {
-            background: #f0f9ff;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
             border-left: 4px solid var(--primary);
             padding: 15px;
-            border-radius: 0 6px 6px 0;
+            border-radius: 0 8px 8px 0;
             margin-bottom: 15px;
+            transition: all 0.3s ease;
         }
-        
+
+        .ai-suggestion:hover {
+            transform: translateX(5px);
+        }
+
         .ai-suggestion-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .ai-suggestion-title {
             font-weight: 600;
             color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
+
         .ai-improve-btn {
             background: var(--primary);
             color: white;
@@ -618,55 +934,71 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-        
+
         .ai-improve-btn:hover {
             background: var(--primary-dark);
+            transform: translateY(-2px);
         }
-        
+
         /* Saved Resumes */
         .resume-list {
             max-height: 300px;
             overflow-y: auto;
         }
-        
+
         .resume-item {
             padding: 15px;
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s ease;
         }
-        
+
         .resume-item:hover {
             background: var(--light);
+            transform: translateX(5px);
         }
-        
+
         .resume-actions {
             display: flex;
             gap: 8px;
         }
-        
+
         .action-btn {
             padding: 6px 12px;
             border-radius: 4px;
             font-size: 0.9rem;
             cursor: pointer;
             border: none;
+            transition: all 0.3s ease;
         }
-        
+
         .load-btn {
             background: var(--primary);
             color: white;
         }
-        
+
+        .load-btn:hover {
+            background: var(--primary-dark);
+        }
+
         .delete-btn {
             background: var(--danger);
             color: white;
         }
-        
+
+        .delete-btn:hover {
+            opacity: 0.9;
+        }
+
         /* Auth Modal */
         .modal {
             display: none;
@@ -680,83 +1012,100 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .modal-content {
-            background: white;
-            border-radius: 10px;
+            background: var(--card-bg);
+            border-radius: 15px;
             width: 100%;
             max-width: 500px;
             padding: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border);
+            animation: modalAppear 0.3s ease;
         }
-        
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
-        
+
         .modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
         }
-        
+
         .close-modal {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
-            color: var(--secondary);
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
         }
-        
+
+        .close-modal:hover {
+            color: var(--danger);
+        }
+
         .toggle-auth {
             text-align: center;
             margin-top: 20px;
-            color: var(--secondary);
+            color: var(--text-secondary);
         }
-        
+
         .toggle-auth a {
             color: var(--primary);
             text-decoration: none;
             font-weight: 500;
+            transition: all 0.3s ease;
         }
-        
+
         .toggle-auth a:hover {
             text-decoration: underline;
         }
-        
+
         /* Toast Notifications */
         .toast {
             position: fixed;
             top: 20px;
             right: 20px;
             padding: 15px 25px;
-            border-radius: 6px;
+            border-radius: 8px;
             color: white;
             font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             z-index: 2000;
             transform: translateX(150%);
             transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
+
         .toast.show {
             transform: translateX(0);
         }
-        
+
         .toast-success {
-            background: var(--success);
+            background: linear-gradient(135deg, var(--success), #059669);
         }
-        
+
         .toast-error {
-            background: var(--danger);
+            background: linear-gradient(135deg, var(--danger), #dc2626);
         }
-        
+
         .toast-info {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), #1d4ed8);
         }
-        
+
         /* Loading Spinner */
         .spinner {
             display: inline-block;
@@ -767,235 +1116,313 @@
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
         }
-        
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Login Page */
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            text-align: center;
+        }
+
+        .login-card h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .login-card p {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .login-form {
+            text-align: left;
+        }
+
+        .login-footer {
+            margin-top: 30px;
+            color: #64748b;
+        }
+
+        .login-footer a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .template-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
             .preview-box {
                 min-height: 600px;
             }
-            
             .header-content {
                 flex-direction: column;
                 gap: 15px;
             }
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            .apollo-contact, .tempe-contact, .aurora-contact {
+                flex-direction: column;
+                gap: 5px;
+            }
         }
-        
+
         @media (max-width: 480px) {
             .template-grid {
                 grid-template-columns: 1fr;
             }
-            
             .preview-actions {
                 flex-direction: column;
+            }
+            .login-card {
+                padding: 30px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">ResumeCraft</div>
-                <div class="auth-buttons">
-                    <button id="auth-btn" class="btn btn-primary">Sign In</button>
-                    <button id="save-btn" class="btn btn-success" style="display: none;">Save Resume</button>
-                    <button id="signout-btn" class="btn btn-outline" style="display: none;">Sign Out</button>
+    <!-- Login Page -->
+    <div class="login-page" id="login-page">
+        <div class="login-card">
+            <h1><i class="fas fa-file-alt"></i> ResumeCraft</h1>
+            <p>Create professional resumes in minutes</p>
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="login-email" class="form-control" placeholder="your@email.com" required>
                 </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <div class="container">
-        <div class="main-layout">
-            <!-- Left Sidebar - Form -->
-            <div class="sidebar-left">
-                <div class="card">
-                    <div class="section-tabs">
-                        <div class="tab active" data-tab="personal">Personal</div>
-                        <div class="tab" data-tab="experience">Experience</div>
-                        <div class="tab" data-tab="education">Education</div>
-                        <div class="tab" data-tab="skills">Skills</div>
-                    </div>
-                    
-                    <!-- Personal Info Tab -->
-                    <div class="tab-content active" id="personal-tab">
-                        <h3 class="card-title">Personal Information</h3>
-                        <div class="form-group">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" id="name" class="form-control" placeholder="John Doe">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email</label>
-                            <input type="email" id="email" class="form-control" placeholder="john.doe@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Phone</label>
-                            <input type="tel" id="phone" class="form-control" placeholder="(123) 456-7890">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Address</label>
-                            <input type="text" id="address" class="form-control" placeholder="City, Country">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Professional Summary</label>
-                            <textarea id="summary" class="form-control" placeholder="Brief professional summary..."></textarea>
-                        </div>
-                        <button id="ai-summary-btn" class="btn btn-primary">✨ Improve with AI</button>
-                    </div>
-                    
-                    <!-- Experience Tab -->
-                    <div class="tab-content" id="experience-tab">
-                        <h3 class="card-title">Work Experience</h3>
-                        <div id="experience-container"></div>
-                        <button id="add-experience" class="btn btn-outline" style="width: 100%;">+ Add Experience</button>
-                    </div>
-                    
-                    <!-- Education Tab -->
-                    <div class="tab-content" id="education-tab">
-                        <h3 class="card-title">Education</h3>
-                        <div id="education-container"></div>
-                        <button id="add-education" class="btn btn-outline" style="width: 100%;">+ Add Education</button>
-                    </div>
-                    
-                    <!-- Skills Tab -->
-                    <div class="tab-content" id="skills-tab">
-                        <h3 class="card-title">Skills</h3>
-                        <div class="form-group">
-                            <label class="form-label">Enter skills (comma separated)</label>
-                            <input type="text" id="skills-input" class="form-control" placeholder="JavaScript, React, Node.js, Python">
-                        </div>
-                        <div class="skills-container" id="skills-tags"></div>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
                 </div>
-                
-                <!-- Template Selector -->
-                <div class="card">
-                    <h3 class="card-title">Choose Template</h3>
-                    <div class="template-grid">
-                        <!-- ATS-Optimized Templates -->
-                        <div class="template-item active" data-template="apollo">
-                            <div class="template-preview">Apollo</div>
-                            <div class="template-name">ATS-Optimized</div>
-                        </div>
-                        <div class="template-item" data-template="terra">
-                            <div class="template-preview">Terra</div>
-                            <div class="template-name">ATS-Optimized</div>
-                        </div>
-                        <div class="template-item" data-template="tempe">
-                            <div class="template-preview">Tempe</div>
-                            <div class="template-name">ATS-Optimized</div>
-                        </div>
-                        
-                        <!-- Professional Templates -->
-                        <div class="template-item" data-template="aurora">
-                            <div class="template-preview">Aurora</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        <div class="template-item" data-template="dawn">
-                            <div class="template-preview">Dawn</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        <div class="template-item" data-template="orion">
-                            <div class="template-preview">Orion</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        
-                        <div class="template-item" data-template="luna">
-                            <div class="template-preview">Luna</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        <div class="template-item" data-template="celeste">
-                            <div class="template-preview">Celeste</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        <div class="template-item" data-template="nova">
-                            <div class="template-preview">Nova</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        
-                        <div class="template-item" data-template="portia">
-                            <div class="template-preview">Portia</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        <div class="template-item" data-template="vega">
-                            <div class="template-preview">Vega</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        <div class="template-item" data-template="bianca">
-                            <div class="template-preview">Bianca</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        
-                        <div class="template-item" data-template="juliet">
-                            <div class="template-preview">Juliet</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        <div class="template-item" data-template="estella">
-                            <div class="template-preview">Estella</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                        <div class="template-item" data-template="lyra">
-                            <div class="template-preview">Lyra</div>
-                            <div class="template-name">Professional</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Center - Preview -->
-            <div class="preview-container">
-                <div class="preview-actions">
-                    <button id="download-pdf" class="btn btn-primary">Download PDF</button>
-                    <button id="save-cloud" class="btn btn-success">Save to Cloud</button>
-                </div>
-                <div class="preview-box">
-                    <div id="resume-preview" class="template-apollo">
-                        <!-- Preview will be generated here -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right Sidebar - AI & Saved Resumes -->
-            <div class="sidebar-right">
-                <!-- AI Suggestions -->
-                <div class="card">
-                    <h3 class="card-title">AI Suggestions</h3>
-                    <div id="ai-suggestions">
-                        <div class="ai-suggestion">
-                            <div class="ai-suggestion-header">
-                                <div class="ai-suggestion-title">Improve Professional Summary</div>
-                                <button class="ai-improve-btn" id="ai-summary-improve">Improve</button>
-                            </div>
-                            <p>Make your summary more impactful with AI</p>
-                        </div>
-                        <div id="experience-ai-suggestions">
-                            <!-- Experience AI suggestions will be added here -->
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Saved Resumes -->
-                <div class="card">
-                    <h3 class="card-title">Saved Resumes</h3>
-                    <div class="resume-list" id="saved-resumes">
-                        <p class="text-center" id="no-resumes-message">No saved resumes yet</p>
-                        <!-- Saved resumes will be listed here -->
-                    </div>
-                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+            <div class="login-footer">
+                Don't have an account? <a href="#" id="show-signup">Sign Up</a>
             </div>
         </div>
     </div>
-    
+
+    <!-- Main App (Hidden by default) -->
+    <div id="app" style="display: none;">
+        <!-- Header -->
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-file-alt"></i> ResumeCraft
+                    </div>
+                    <div class="auth-buttons">
+                        <button class="theme-toggle" id="theme-toggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <div class="user-info">
+                            <div class="user-avatar" id="user-avatar">U</div>
+                            <span id="user-name">User</span>
+                        </div>
+                        <button id="save-btn" class="btn btn-success">
+                            <i class="fas fa-save"></i> Save Resume
+                        </button>
+                        <button id="signout-btn" class="btn btn-outline">
+                            <i class="fas fa-sign-out-alt"></i> Sign Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container">
+            <div class="main-layout">
+                <!-- Left Sidebar - Form -->
+                <div class="sidebar-left">
+                    <div class="card">
+                        <div class="section-tabs">
+                            <div class="tab active" data-tab="personal">Personal</div>
+                            <div class="tab" data-tab="experience">Experience</div>
+                            <div class="tab" data-tab="education">Education</div>
+                            <div class="tab" data-tab="skills">Skills</div>
+                        </div>
+                        <!-- Personal Info Tab -->
+                        <div class="tab-content active" id="personal-tab">
+                            <h3 class="card-title"><i class="fas fa-user"></i> Personal Information</h3>
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" id="name" class="form-control" placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" id="email" class="form-control" placeholder="john.doe@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="(123) 456-7890">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <input type="text" id="address" class="form-control" placeholder="City, Country">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Professional Summary</label>
+                                <textarea id="summary" class="form-control" placeholder="Brief professional summary..."></textarea>
+                            </div>
+                            <button id="ai-summary-btn" class="btn btn-primary">
+                                <i class="fas fa-robot"></i> Improve with AI
+                            </button>
+                        </div>
+                        <!-- Experience Tab -->
+                        <div class="tab-content" id="experience-tab">
+                            <h3 class="card-title"><i class="fas fa-briefcase"></i> Work Experience</h3>
+                            <div id="experience-container"></div>
+                            <button id="add-experience" class="btn btn-outline" style="width: 100%;">
+                                <i class="fas fa-plus"></i> Add Experience
+                            </button>
+                        </div>
+                        <!-- Education Tab -->
+                        <div class="tab-content" id="education-tab">
+                            <h3 class="card-title"><i class="fas fa-graduation-cap"></i> Education</h3>
+                            <div id="education-container"></div>
+                            <button id="add-education" class="btn btn-outline" style="width: 100%;">
+                                <i class="fas fa-plus"></i> Add Education
+                            </button>
+                        </div>
+                        <!-- Skills Tab -->
+                        <div class="tab-content" id="skills-tab">
+                            <h3 class="card-title"><i class="fas fa-cogs"></i> Skills</h3>
+                            <div class="form-group">
+                                <label class="form-label">Enter skills (comma separated)</label>
+                                <input type="text" id="skills-input" class="form-control" placeholder="JavaScript, React, Node.js, Python">
+                            </div>
+                            <div class="skills-container" id="skills-tags"></div>
+                        </div>
+                    </div>
+                    <!-- Template Selector -->
+                    <div class="card">
+                        <h3 class="card-title"><i class="fas fa-palette"></i> Choose Template</h3>
+                        <div class="template-grid">
+                            <!-- ATS-Optimized Templates -->
+                            <div class="template-item active" data-template="apollo">
+                                <div class="template-preview" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe);">Apollo</div>
+                                <div class="template-name">ATS-Optimized <span class="template-type">Professional</span></div>
+                            </div>
+                            <div class="template-item" data-template="terra">
+                                <div class="template-preview" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0);">Terra</div>
+                                <div class="template-name">ATS-Optimized <span class="template-type">Modern</span></div>
+                            </div>
+                            <div class="template-item" data-template="tempe">
+                                <div class="template-preview" style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe);">Tempe</div>
+                                <div class="template-name">ATS-Optimized <span class="template-type">Elegant</span></div>
+                            </div>
+                            <!-- Professional Templates -->
+                            <div class="template-item" data-template="aurora">
+                                <div class="template-preview" style="background: linear-gradient(135deg, #667eea, #764ba2);">Aurora</div>
+                                <div class="template-name">Professional <span class="template-type">Creative</span></div>
+                            </div>
+                            <div class="template-item" data-template="dawn">
+                                <div class="template-preview" style="background: linear-gradient(135deg, #fbcfe8, #f9a8d4);">Dawn</div>
+                                <div class="template-name">Professional <span class="template-type">Minimal</span></div>
+                            </div>
+                            <div class="template-item" data-template="orion">
+                                <div class="template-preview" style="background: linear-gradient(135deg, #fed7aa, #fdba74);">Orion</div>
+                                <div class="template-name">Professional <span class="template-type">Bold</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Center - Preview -->
+                <div class="preview-container">
+                    <div class="preview-actions">
+                        <button id="download-pdf" class="btn btn-primary">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                        <button id="save-cloud" class="btn btn-success">
+                            <i class="fas fa-cloud-upload-alt"></i> Save to Cloud
+                        </button>
+                    </div>
+                    <div class="preview-box">
+                        <div id="resume-preview" class="template-apollo">
+                            <!-- Preview will be generated here -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Sidebar - AI & Saved Resumes -->
+                <div class="sidebar-right">
+                    <!-- AI Suggestions -->
+                    <div class="card">
+                        <h3 class="card-title"><i class="fas fa-robot"></i> AI Suggestions</h3>
+                        <div id="ai-suggestions">
+                            <div class="ai-suggestion">
+                                <div class="ai-suggestion-header">
+                                    <div class="ai-suggestion-title"><i class="fas fa-lightbulb"></i> Improve Professional Summary</div>
+                                    <button class="ai-improve-btn" id="ai-summary-improve">
+                                        <i class="fas fa-magic"></i> Improve
+                                    </button>
+                                </div>
+                                <p>Make your summary more impactful with AI</p>
+                            </div>
+                            <div id="experience-ai-suggestions">
+                                <!-- Experience AI suggestions will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Saved Resumes -->
+                    <div class="card">
+                        <h3 class="card-title"><i class="fas fa-save"></i> Saved Resumes</h3>
+                        <div class="resume-list" id="saved-resumes">
+                            <p class="text-center" id="no-resumes-message">No saved resumes yet</p>
+                            <!-- Saved resumes will be listed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <p>© 2023 ResumeCraft. By GM73 Technologies.</p>
+            </div>
+        </footer>
+    </div>
+
     <!-- Authentication Modal -->
     <div id="auth-modal" class="modal">
         <div class="modal-content">
@@ -1012,17 +1439,19 @@
                     <label class="form-label">Password</label>
                     <input type="password" id="auth-password" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-primary" id="auth-submit-btn" style="width: 100%;">Sign In</button>
+                <button type="submit" class="btn btn-primary" id="auth-submit-btn" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
             </form>
             <div class="toggle-auth">
                 Don't have an account? <a href="#" id="toggle-auth">Sign Up</a>
             </div>
         </div>
     </div>
-    
+
     <!-- Toast Notifications -->
     <div id="toast" class="toast"></div>
-    
+
     <script>
         // Firebase Configuration
         const firebaseConfig = {
@@ -1056,6 +1485,10 @@
         };
 
         // DOM Elements
+        const loginPage = document.getElementById('login-page');
+        const app = document.getElementById('app');
+        const loginForm = document.getElementById('login-form');
+        const showSignup = document.getElementById('show-signup');
         const authBtn = document.getElementById('auth-btn');
         const saveBtn = document.getElementById('save-btn');
         const signoutBtn = document.getElementById('signout-btn');
@@ -1079,40 +1512,63 @@
         const savedResumes = document.getElementById('saved-resumes');
         const noResumesMessage = document.getElementById('no-resumes-message');
         const toast = document.getElementById('toast');
+        const themeToggle = document.getElementById('theme-toggle');
+        const userName = document.getElementById('user-name');
+        const userAvatar = document.getElementById('user-avatar');
 
         // Authentication State
         let isSignUp = false;
+
+        // Theme toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        });
 
         // Initialize the app
         document.addEventListener('DOMContentLoaded', () => {
             // Set up event listeners
             setupEventListeners();
-            
             // Render initial experience and education sections
             renderExperienceSection();
             renderEducationSection();
-            
             // Update preview
             updatePreview();
         });
 
         // Set up all event listeners
         function setupEventListeners() {
+            // Login form
+            loginForm.addEventListener('submit', handleLogin);
+            showSignup.addEventListener('click', (e) => {
+                e.preventDefault();
+                authModal.style.display = 'flex';
+                isSignUp = true;
+                authTitle.textContent = 'Sign Up';
+                authSubmitBtn.textContent = 'Sign Up';
+                toggleAuth.textContent = 'Sign In';
+            });
+
             // Authentication
             authBtn.addEventListener('click', () => {
                 authModal.style.display = 'flex';
             });
-            
+
             closeModal.addEventListener('click', () => {
                 authModal.style.display = 'none';
             });
-            
+
             window.addEventListener('click', (e) => {
                 if (e.target === authModal) {
                     authModal.style.display = 'none';
                 }
             });
-            
+
             toggleAuth.addEventListener('click', (e) => {
                 e.preventDefault();
                 isSignUp = !isSignUp;
@@ -1120,22 +1576,21 @@
                 authSubmitBtn.textContent = isSignUp ? 'Sign Up' : 'Sign In';
                 toggleAuth.textContent = isSignUp ? 'Sign In' : 'Sign Up';
             });
-            
+
             authForm.addEventListener('submit', handleAuth);
-            
+
             // Sign out
             signoutBtn.addEventListener('click', () => {
                 auth.signOut();
                 showToast('Signed out successfully', 'success');
             });
-            
+
             // Tab switching
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     // Update active tab
                     tabs.forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
-                    
                     // Show corresponding content
                     const tabId = tab.getAttribute('data-tab');
                     tabContents.forEach(content => {
@@ -1146,55 +1601,53 @@
                     });
                 });
             });
-            
+
             // Template selection
             templateItems.forEach(item => {
                 item.addEventListener('click', () => {
                     // Update active template
                     templateItems.forEach(t => t.classList.remove('active'));
                     item.classList.add('active');
-                    
                     // Update current template
                     currentTemplate = item.getAttribute('data-template');
-                    
                     // Update preview
                     updatePreview();
                 });
             });
-            
+
             // Form inputs
             document.getElementById('name').addEventListener('input', (e) => {
                 resumeData.personalInfo.name = e.target.value;
                 updatePreview();
             });
-            
+
             document.getElementById('email').addEventListener('input', (e) => {
                 resumeData.personalInfo.email = e.target.value;
                 updatePreview();
             });
-            
+
             document.getElementById('phone').addEventListener('input', (e) => {
                 resumeData.personalInfo.phone = e.target.value;
                 updatePreview();
             });
-            
+
             document.getElementById('address').addEventListener('input', (e) => {
                 resumeData.personalInfo.address = e.target.value;
                 updatePreview();
             });
-            
+
             document.getElementById('summary').addEventListener('input', (e) => {
                 resumeData.personalInfo.summary = e.target.value;
                 updatePreview();
             });
-            
+
             document.getElementById('skills-input').addEventListener('input', (e) => {
                 const skills = e.target.value.split(',').map(skill => skill.trim()).filter(skill => skill);
                 resumeData.skills = skills;
                 renderSkills();
                 updatePreview();
             });
-            
+
             // Add experience
             document.getElementById('add-experience').addEventListener('click', () => {
                 resumeData.experience.push({
@@ -1208,7 +1661,7 @@
                 renderExperienceSection();
                 updatePreview();
             });
-            
+
             // Add education
             document.getElementById('add-education').addEventListener('click', () => {
                 resumeData.education.push({
@@ -1221,29 +1674,38 @@
                 renderEducationSection();
                 updatePreview();
             });
-            
+
             // AI Summary
             aiSummaryBtn.addEventListener('click', improveSummaryWithAI);
             aiSummaryImprove.addEventListener('click', improveSummaryWithAI);
-            
+
             // PDF Download
             downloadPdfBtn.addEventListener('click', downloadPDF);
-            
+
             // Save to Cloud
             saveCloudBtn.addEventListener('click', saveResumeToCloud);
             saveBtn.addEventListener('click', saveResumeToCloud);
-            
+
             // Auth state change
             auth.onAuthStateChanged(user => {
                 if (user) {
                     currentUser = user;
+                    loginPage.style.display = 'none';
+                    app.style.display = 'block';
                     authBtn.style.display = 'none';
-                    saveBtn.style.display = 'inline-block';
-                    signoutBtn.style.display = 'inline-block';
+                    saveBtn.style.display = 'inline-flex';
+                    signoutBtn.style.display = 'inline-flex';
+                    
+                    // Update user info
+                    userName.textContent = user.email.split('@')[0];
+                    userAvatar.textContent = user.email.charAt(0).toUpperCase();
+                    
                     loadSavedResumes();
                     showToast('Signed in successfully', 'success');
                 } else {
                     currentUser = null;
+                    loginPage.style.display = 'flex';
+                    app.style.display = 'none';
                     authBtn.style.display = 'inline-block';
                     saveBtn.style.display = 'none';
                     signoutBtn.style.display = 'none';
@@ -1252,10 +1714,23 @@
             });
         }
 
+        // Handle login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                showToast('Signed in successfully', 'success');
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
         // Handle authentication
         async function handleAuth(e) {
             e.preventDefault();
-            
             const email = authEmail.value;
             const password = authPassword.value;
             
@@ -1277,7 +1752,6 @@
         function renderExperienceSection() {
             const container = document.getElementById('experience-container');
             container.innerHTML = '';
-            
             // Clear AI suggestions
             experienceAiSuggestions.innerHTML = '';
             
@@ -1305,7 +1779,9 @@
                         <label class="form-label">Description</label>
                         <textarea class="form-control exp-description" data-index="${index}" placeholder="Describe your responsibilities and achievements...">${exp.description}</textarea>
                     </div>
-                    <button class="btn btn-primary ai-exp-btn" data-index="${index}" style="width: 100%;">✨ Improve with AI</button>
+                    <button class="btn btn-primary ai-exp-btn" data-index="${index}" style="width: 100%;">
+                        <i class="fas fa-robot"></i> Improve with AI
+                    </button>
                 `;
                 container.appendChild(expElement);
                 
@@ -1314,8 +1790,10 @@
                 aiSuggestion.className = 'ai-suggestion';
                 aiSuggestion.innerHTML = `
                     <div class="ai-suggestion-header">
-                        <div class="ai-suggestion-title">Improve Experience Description</div>
-                        <button class="ai-improve-btn ai-exp-improve" data-index="${index}">Improve</button>
+                        <div class="ai-suggestion-title"><i class="fas fa-lightbulb"></i> Improve Experience Description</div>
+                        <button class="ai-improve-btn ai-exp-improve" data-index="${index}">
+                            <i class="fas fa-magic"></i> Improve
+                        </button>
                     </div>
                     <p>Enhance your job description at ${exp.company || 'Company'}</p>
                 `;
@@ -1463,7 +1941,7 @@
             resumeData.skills.forEach(skill => {
                 const skillElement = document.createElement('div');
                 skillElement.className = 'skill-tag';
-                skillElement.textContent = skill;
+                skillElement.innerHTML = `<i class="fas fa-tag"></i> ${skill}`;
                 container.appendChild(skillElement);
             });
         }
@@ -1471,7 +1949,6 @@
         // Update resume preview
         function updatePreview() {
             let templateHTML = '';
-            
             switch(currentTemplate) {
                 case 'apollo':
                     templateHTML = generateApolloTemplate();
@@ -1482,10 +1959,12 @@
                 case 'tempe':
                     templateHTML = generateTempeTemplate();
                     break;
+                case 'aurora':
+                    templateHTML = generateAuroraTemplate();
+                    break;
                 default:
                     templateHTML = generateApolloTemplate();
             }
-            
             resumePreview.innerHTML = templateHTML;
             resumePreview.className = `resume-template template-${currentTemplate}`;
         }
@@ -1496,19 +1975,17 @@
                 <div class="apollo-header">
                     <h1 class="apollo-name">${resumeData.personalInfo.name || 'Your Name'}</h1>
                     <p class="apollo-contact">
-                        ${resumeData.personalInfo.email ? `${resumeData.personalInfo.email} | ` : ''}
-                        ${resumeData.personalInfo.phone ? `${resumeData.personalInfo.phone} | ` : ''}
-                        ${resumeData.personalInfo.address || ''}
+                        ${resumeData.personalInfo.email ? `<span class="apollo-contact-item"><i class="fas fa-envelope"></i> ${resumeData.personalInfo.email}</span>` : ''}
+                        ${resumeData.personalInfo.phone ? `<span class="apollo-contact-item"><i class="fas fa-phone"></i> ${resumeData.personalInfo.phone}</span>` : ''}
+                        ${resumeData.personalInfo.address ? `<span class="apollo-contact-item"><i class="fas fa-map-marker-alt"></i> ${resumeData.personalInfo.address}</span>` : ''}
                     </p>
                 </div>
-                
                 ${resumeData.personalInfo.summary ? `
                 <div class="apollo-section">
                     <h2 class="apollo-section-title">Professional Summary</h2>
                     <p>${resumeData.personalInfo.summary}</p>
                 </div>
                 ` : ''}
-                
                 ${resumeData.experience.length > 0 ? `
                 <div class="apollo-section">
                     <h2 class="apollo-section-title">Work Experience</h2>
@@ -1522,7 +1999,6 @@
                     `).join('')}
                 </div>
                 ` : ''}
-                
                 ${resumeData.education.length > 0 ? `
                 <div class="apollo-section">
                     <h2 class="apollo-section-title">Education</h2>
@@ -1535,12 +2011,11 @@
                     `).join('')}
                 </div>
                 ` : ''}
-                
                 ${resumeData.skills.length > 0 ? `
                 <div class="apollo-section">
                     <h2 class="apollo-section-title">Skills</h2>
                     <div class="apollo-skills">
-                        ${resumeData.skills.map(skill => `<span class="apollo-skill">${skill}</span>`).join('')}
+                        ${resumeData.skills.map(skill => `<span class="apollo-skill"><i class="fas fa-check-circle"></i> ${skill}</span>`).join('')}
                     </div>
                 </div>
                 ` : ''}
@@ -1553,19 +2028,17 @@
                 <div class="terra-header">
                     <h1 class="terra-name">${resumeData.personalInfo.name || 'Your Name'}</h1>
                     <div class="terra-contact">
-                        ${resumeData.personalInfo.email ? `<div>${resumeData.personalInfo.email}</div>` : ''}
-                        ${resumeData.personalInfo.phone ? `<div>${resumeData.personalInfo.phone}</div>` : ''}
-                        ${resumeData.personalInfo.address ? `<div>${resumeData.personalInfo.address}</div>` : ''}
+                        ${resumeData.personalInfo.email ? `<div><i class="fas fa-envelope"></i> ${resumeData.personalInfo.email}</div>` : ''}
+                        ${resumeData.personalInfo.phone ? `<div><i class="fas fa-phone"></i> ${resumeData.personalInfo.phone}</div>` : ''}
+                        ${resumeData.personalInfo.address ? `<div><i class="fas fa-map-marker-alt"></i> ${resumeData.personalInfo.address}</div>` : ''}
                     </div>
                 </div>
-                
                 ${resumeData.personalInfo.summary ? `
                 <div class="terra-section">
                     <h2 class="terra-section-title">Professional Summary</h2>
                     <p>${resumeData.personalInfo.summary}</p>
                 </div>
                 ` : ''}
-                
                 ${resumeData.experience.length > 0 ? `
                 <div class="terra-section">
                     <h2 class="terra-section-title">Work Experience</h2>
@@ -1579,7 +2052,6 @@
                     `).join('')}
                 </div>
                 ` : ''}
-                
                 ${resumeData.education.length > 0 ? `
                 <div class="terra-section">
                     <h2 class="terra-section-title">Education</h2>
@@ -1592,12 +2064,11 @@
                     `).join('')}
                 </div>
                 ` : ''}
-                
                 ${resumeData.skills.length > 0 ? `
                 <div class="terra-section">
                     <h2 class="terra-section-title">Skills</h2>
                     <div class="terra-skills">
-                        ${resumeData.skills.map(skill => `<span class="terra-skill">${skill}</span>`).join('')}
+                        ${resumeData.skills.map(skill => `<span class="terra-skill"><i class="fas fa-star"></i> ${skill}</span>`).join('')}
                     </div>
                 </div>
                 ` : ''}
@@ -1610,19 +2081,17 @@
                 <div class="tempe-header">
                     <h1 class="tempe-name">${resumeData.personalInfo.name || 'Your Name'}</h1>
                     <p class="tempe-contact">
-                        ${resumeData.personalInfo.email ? `${resumeData.personalInfo.email} | ` : ''}
-                        ${resumeData.personalInfo.phone ? `${resumeData.personalInfo.phone} | ` : ''}
-                        ${resumeData.personalInfo.address || ''}
+                        ${resumeData.personalInfo.email ? `<span><i class="fas fa-envelope"></i> ${resumeData.personalInfo.email}</span>` : ''}
+                        ${resumeData.personalInfo.phone ? `<span><i class="fas fa-phone"></i> ${resumeData.personalInfo.phone}</span>` : ''}
+                        ${resumeData.personalInfo.address ? `<span><i class="fas fa-map-marker-alt"></i> ${resumeData.personalInfo.address}</span>` : ''}
                     </p>
                 </div>
-                
                 ${resumeData.personalInfo.summary ? `
                 <div class="tempe-section">
                     <h2 class="tempe-section-title">Professional Summary</h2>
                     <p>${resumeData.personalInfo.summary}</p>
                 </div>
                 ` : ''}
-                
                 ${resumeData.experience.length > 0 ? `
                 <div class="tempe-section">
                     <h2 class="tempe-section-title">Work Experience</h2>
@@ -1636,7 +2105,6 @@
                     `).join('')}
                 </div>
                 ` : ''}
-                
                 ${resumeData.education.length > 0 ? `
                 <div class="tempe-section">
                     <h2 class="tempe-section-title">Education</h2>
@@ -1649,12 +2117,64 @@
                     `).join('')}
                 </div>
                 ` : ''}
-                
                 ${resumeData.skills.length > 0 ? `
                 <div class="tempe-section">
                     <h2 class="tempe-section-title">Skills</h2>
                     <div class="tempe-skills">
-                        ${resumeData.skills.map(skill => `<span class="tempe-skill">${skill}</span>`).join('')}
+                        ${resumeData.skills.map(skill => `<span class="tempe-skill"><i class="fas fa-certificate"></i> ${skill}</span>`).join('')}
+                    </div>
+                </div>
+                ` : ''}
+            `;
+        }
+
+        // Generate Aurora template
+        function generateAuroraTemplate() {
+            return `
+                <div class="aurora-header">
+                    <h1 class="aurora-name">${resumeData.personalInfo.name || 'Your Name'}</h1>
+                    <p class="aurora-contact">
+                        ${resumeData.personalInfo.email ? `<span><i class="fas fa-envelope"></i> ${resumeData.personalInfo.email}</span>` : ''}
+                        ${resumeData.personalInfo.phone ? `<span><i class="fas fa-phone"></i> ${resumeData.personalInfo.phone}</span>` : ''}
+                        ${resumeData.personalInfo.address ? `<span><i class="fas fa-map-marker-alt"></i> ${resumeData.personalInfo.address}</span>` : ''}
+                    </p>
+                </div>
+                ${resumeData.personalInfo.summary ? `
+                <div class="aurora-section">
+                    <h2 class="aurora-section-title">Professional Summary</h2>
+                    <p>${resumeData.personalInfo.summary}</p>
+                </div>
+                ` : ''}
+                ${resumeData.experience.length > 0 ? `
+                <div class="aurora-section">
+                    <h2 class="aurora-section-title">Work Experience</h2>
+                    ${resumeData.experience.map(exp => `
+                    <div class="aurora-experience-item">
+                        <div class="aurora-job-title">${exp.position || 'Position'}</div>
+                        <div class="aurora-company">${exp.company || 'Company'}</div>
+                        <div class="aurora-date">${exp.startDate} - ${exp.endDate}</div>
+                        <p class="aurora-description">${exp.description}</p>
+                    </div>
+                    `).join('')}
+                </div>
+                ` : ''}
+                ${resumeData.education.length > 0 ? `
+                <div class="aurora-section">
+                    <h2 class="aurora-section-title">Education</h2>
+                    ${resumeData.education.map(edu => `
+                    <div class="aurora-education-item">
+                        <div class="aurora-job-title">${edu.degree || 'Degree'}</div>
+                        <div class="aurora-company">${edu.school || 'School'}</div>
+                        <div class="aurora-date">${edu.startDate} - ${edu.endDate}</div>
+                    </div>
+                    `).join('')}
+                </div>
+                ` : ''}
+                ${resumeData.skills.length > 0 ? `
+                <div class="aurora-section">
+                    <h2 class="aurora-section-title">Skills</h2>
+                    <div class="aurora-skills">
+                        ${resumeData.skills.map(skill => `<span class="aurora-skill"><i class="fas fa-star"></i> ${skill}</span>`).join('')}
                     </div>
                 </div>
                 ` : ''}
@@ -1677,7 +2197,6 @@
                 // Simulate AI improvement (in a real app, this would call your backend)
                 // For demo purposes, we'll just enhance the existing summary
                 const improvedSummary = `Results-driven professional with extensive experience in ${resumeData.personalInfo.summary || 'various fields'}. Proven track record of delivering exceptional results and leading cross-functional teams to achieve organizational objectives. Committed to continuous learning and professional development.`;
-                
                 resumeData.personalInfo.summary = improvedSummary;
                 document.getElementById('summary').value = improvedSummary;
                 updatePreview();
@@ -1712,7 +2231,6 @@
                 // Simulate AI improvement (in a real app, this would call your backend)
                 // For demo purposes, we'll just enhance the existing description
                 const improvedDescription = `Led a team of professionals to achieve exceptional results. Implemented innovative solutions that increased efficiency by 30%. Collaborated with cross-functional teams to deliver projects on time and within budget. Demonstrated strong leadership and problem-solving skills.`;
-                
                 resumeData.experience[index].description = improvedDescription;
                 document.querySelector(`.exp-description[data-index="${index}"]`).value = improvedDescription;
                 updatePreview();
@@ -1730,6 +2248,12 @@
 
         // Download PDF
         function downloadPDF() {
+            if (!currentUser) {
+                showToast('Please sign up to download your resume', 'error');
+                authModal.style.display = 'flex';
+                return;
+            }
+            
             const element = document.getElementById('resume-preview');
             const opt = {
                 margin: 10,
@@ -1789,8 +2313,8 @@
                             <div class="text-sm text-gray-500">${resume.createdAt ? new Date(resume.createdAt.seconds * 1000).toLocaleDateString() : 'Unknown date'}</div>
                         </div>
                         <div class="resume-actions">
-                            <button class="action-btn load-btn" data-id="${doc.id}">Load</button>
-                            <button class="action-btn delete-btn" data-id="${doc.id}">Delete</button>
+                            <button class="action-btn load-btn" data-id="${doc.id}"><i class="fas fa-download"></i> Load</button>
+                            <button class="action-btn delete-btn" data-id="${doc.id}"><i class="fas fa-trash"></i> Delete</button>
                         </div>
                     `;
                     savedResumes.appendChild(resumeElement);
@@ -1799,14 +2323,14 @@
                 // Add event listeners for load and delete buttons
                 document.querySelectorAll('.load-btn').forEach(button => {
                     button.addEventListener('click', (e) => {
-                        const id = e.target.getAttribute('data-id');
+                        const id = e.target.closest('.load-btn').getAttribute('data-id');
                         loadResume(id);
                     });
                 });
                 
                 document.querySelectorAll('.delete-btn').forEach(button => {
                     button.addEventListener('click', (e) => {
-                        const id = e.target.getAttribute('data-id');
+                        const id = e.target.closest('.delete-btn').getAttribute('data-id');
                         deleteResume(id);
                     });
                 });
@@ -1848,7 +2372,6 @@
                     renderEducationSection();
                     renderSkills();
                     updatePreview();
-                    
                     showToast('Resume loaded successfully!', 'success');
                 } else {
                     showToast('Resume not found', 'error');
@@ -1884,9 +2407,13 @@
 
         // Show toast notification
         function showToast(message, type) {
-            toast.textContent = message;
+            toast.innerHTML = `
+                ${type === 'success' ? '<i class="fas fa-check-circle"></i>' : ''}
+                ${type === 'error' ? '<i class="fas fa-exclamation-circle"></i>' : ''}
+                ${type === 'info' ? '<i class="fas fa-info-circle"></i>' : ''}
+                ${message}
+            `;
             toast.className = `toast toast-${type} show`;
-            
             setTimeout(() => {
                 toast.className = 'toast';
             }, 3000);
