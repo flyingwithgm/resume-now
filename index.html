@@ -5111,25 +5111,146 @@ const firebaseConfig = {
         });
 
         // Download PDF
-        downloadPdfBtn.addEventListener('click', () => {
-            if (!currentUser) {
-                showToast('Please sign in to download your resume', 'error');
-                showAuthModal();
-                return;
+        // Find the existing downloadPDF function and replace it with this improved version
+function downloadPDF() {
+    const previewContent = document.getElementById('preview-content');
+    
+    if (!previewContent) {
+        console.error('Preview content not found');
+        return;
+    }
+    
+    // Create a complete HTML document with proper styling
+    const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Resume</title>
+            <style>
+                /* Include all necessary CSS styles from the page */
+                body { 
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                    margin: 0; 
+                    padding: 0; 
+                    background: white; 
+                }
+                .resume-template { 
+                    background: white; 
+                    padding: 40px; 
+                    margin: 0 auto; 
+                    max-width: 800px; 
+                }
+                /* Add all template-specific styles that were in the original code */
+                ${Array.from(document.styleSheets).map(sheet => {
+                    try {
+                        return Array.from(sheet.cssRules || sheet.rules)
+                            .map(rule => rule.cssText)
+                            .join('\n');
+                    } catch (e) {
+                        return '';
+                    }
+                }).join('\n')}
+                /* Print-specific styles */
+                @media print {
+                    body { 
+                        margin: 0; 
+                        padding: 0; 
+                        background: white; 
+                    }
+                    .resume-template { 
+                        padding: 20px; 
+                        box-shadow: none; 
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            ${previewContent.innerHTML}
+        </body>
+        </html>
+    `;
+    
+    // Method 1: Try html2pdf first (if available)
+    if (typeof html2pdf !== 'undefined') {
+        const element = document.createElement('div');
+        element.innerHTML = htmlContent;
+        
+        const options = {
+            margin: 10,
+            filename: 'resume.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2,
+                useCORS: true,
+                logging: false
+            },
+            jsPDF: { 
+                unit: 'pt', 
+                format: 'a4', 
+                orientation: 'portrait' 
             }
+        };
+        
+        html2pdf()
+            .set(options)
+            .from(element)
+            .save()
+            .catch(err => {
+                console.error('html2pdf failed:', err);
+                // Fallback to blob method
+                downloadAsBlob(htmlContent);
+            });
+    } else {
+        // Fallback: Direct blob download
+        downloadAsBlob(htmlContent);
+    }
+}
 
-            const element = document.getElementById('editor-content');
-            const opt = {
-                margin: 10,
-                filename: `${resumeData.personalInfo.name || 'resume'}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
+// Add this helper function
+function downloadAsBlob(htmlContent) {
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'resume.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
 
-            html2pdf().set(opt).from(element).save();
-            showToast('Downloading PDF...', 'info');
+// Also modify the download button event listener to ensure proper timing
+document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.getElementById('download-pdf');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Ensure all updates are processed
+            setTimeout(() => {
+                downloadPDF();
+            }, 100);
         });
+    }
+});
+
+// Enhanced preview update to ensure content is ready
+function updatePreview() {
+    const template = getSelectedTemplate();
+    const html = generateTemplate(template);
+    
+    const preview = document.getElementById('preview-content');
+    if (preview) {
+        preview.innerHTML = html;
+        
+        // Force reflow to ensure proper rendering
+        preview.style.display = 'none';
+        preview.offsetHeight;
+        preview.style.display = 'block';
+    }
+    
+    updateDynamicContent();
+}
 
         // Save to Cloud
         saveCloudBtn.addEventListener('click', async () => {
