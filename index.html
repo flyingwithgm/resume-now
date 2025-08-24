@@ -5187,7 +5187,98 @@ const firebaseConfig = {
                 toast.className = 'toast';
             }, 3000);
         }
+// Add this function near the bottom of your JavaScript code (around line 1300-1400)
+function generatePDF() {
+    const previewContent = document.getElementById('preview-content');
+    
+    if (!previewContent) {
+        console.error('Preview content not found');
+        return;
+    }
+    
+    // Create a clean HTML representation
+    const cleanHTML = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Resume</title>
+            <style>
+                /* Include all your CSS styles here */
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+                .resume-template { 
+                    background: white; 
+                    padding: 40px; 
+                    margin: 0 auto; 
+                    max-width: 800px; 
+                }
+                /* Add all your template-specific styles here */
+                ${Array.from(document.styleSheets).map(sheet => {
+                    try {
+                        return Array.from(sheet.cssRules || sheet.rules)
+                            .map(rule => rule.cssText)
+                            .join('\n');
+                    } catch (e) {
+                        return '';
+                    }
+                }).join('\n')}
+            </style>
+        </head>
+        <body>
+            ${previewContent.innerHTML}
+        </body>
+        </html>
+    `;
+    
+    // Method 1: Using html2pdf (if available)
+    if (typeof html2pdf !== 'undefined') {
+        const options = {
+            margin: 10,
+            filename: 'resume.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+        };
+        
+        html2pdf()
+            .set(options)
+            .from(previewContent)
+            .save()
+            .catch(err => {
+                console.error('PDF generation failed:', err);
+                // Fallback to blob method
+                downloadAsBlob(cleanHTML);
+            });
+    } else {
+        // Fallback method
+        downloadAsBlob(cleanHTML);
+    }
+}
 
+// Add this helper function
+function downloadAsBlob(htmlContent) {
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'resume.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// Modify the existing download button listener
+document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.getElementById('download-pdf');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function() {
+            // Add a small delay to ensure all updates are processed
+            setTimeout(generatePDF, 100);
+        });
+    }
+});
         // Initialize
         updatePreview();
         updateAuthUI();
