@@ -1111,7 +1111,7 @@ function updatePreview() {
     `;
     editorContent.innerHTML = previewHTML;
 }
-// Enhanced PDF Generation Function - FIXED VERSION
+// Enhanced PDF Generation Function - FIXED VERSION FOR MOBILE
 async function downloadPDF() {
     try {
         // Show loading state
@@ -1120,7 +1120,7 @@ async function downloadPDF() {
         downloadPdfBtn.disabled = true;
 
         // Wait a moment to ensure all updates are rendered
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 200));
 
         // Create a new div to hold the content for PDF generation
         const pdfContent = document.createElement('div');
@@ -1140,6 +1140,9 @@ async function downloadPDF() {
                 background: white;
                 color: black;
                 line-height: 1.4;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo, .template-terra, .template-tempe, .template-nova, 
             .template-classic, .template-modern, .template-professional, 
@@ -1147,6 +1150,8 @@ async function downloadPDF() {
                 font-family: Arial, sans-serif !important;
                 color: #000 !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-header, .template-terra .terra-header, 
             .template-tempe .tempe-header, .template-nova .nova-header,
@@ -1159,6 +1164,8 @@ async function downloadPDF() {
                 padding-bottom: 25px !important;
                 border-bottom: 4px solid !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-name, .template-terra .terra-name,
             .template-tempe .tempe-name, .template-nova .nova-name,
@@ -1170,6 +1177,8 @@ async function downloadPDF() {
                 font-weight: 800 !important;
                 margin-bottom: 0.5rem !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-contact, .template-terra .terra-contact,
             .template-tempe .tempe-contact, .template-nova .nova-contact,
@@ -1183,6 +1192,8 @@ async function downloadPDF() {
                 margin-top: 1rem !important;
                 flex-wrap: wrap !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-section, .template-terra .terra-section,
             .template-tempe .tempe-section, .template-nova .nova-section,
@@ -1192,6 +1203,8 @@ async function downloadPDF() {
             .template-artistic .artistic-section {
                 margin-bottom: 30px !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-section-title, .template-terra .terra-section-title,
             .template-tempe .tempe-section-title, .template-nova .nova-section-title,
@@ -1205,6 +1218,8 @@ async function downloadPDF() {
                 position: relative !important;
                 padding-left: 30px !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-experience-item, .template-terra .terra-experience-item,
             .template-tempe .tempe-experience-item, .template-nova .nova-experience-item,
@@ -1216,6 +1231,8 @@ async function downloadPDF() {
                 padding-left: 20px !important;
                 border-left: 3px solid !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-job-title, .template-terra .terra-job-title,
             .template-tempe .tempe-job-title, .template-nova .nova-job-title,
@@ -1226,6 +1243,8 @@ async function downloadPDF() {
                 font-size: 1.4rem !important;
                 font-weight: 700 !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-company, .template-terra .terra-company,
             .template-tempe .tempe-company, .template-nova .nova-company,
@@ -1236,6 +1255,8 @@ async function downloadPDF() {
                 font-size: 1.2rem !important;
                 font-weight: 600 !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-date, .template-terra .terra-date,
             .template-tempe .tempe-date, .template-nova .nova-date,
@@ -1246,6 +1267,8 @@ async function downloadPDF() {
                 font-size: 1.1rem !important;
                 margin-bottom: 10px !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-description, .template-terra .terra-description,
             .template-tempe .tempe-description, .template-nova .nova-description,
@@ -1256,6 +1279,8 @@ async function downloadPDF() {
                 color: #475569 !important;
                 margin-left: 15px !important;
                 width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             .template-apollo .apollo-section-title::before,
             .template-terra .terra-section-title::before,
@@ -1293,6 +1318,66 @@ async function downloadPDF() {
                 size: A4;
                 margin: 20mm;
             }
+            
+            /* Mobile-specific fixes */
+            @media screen and (max-width: 768px) {
+                #pdf-content {
+                    padding: 10px !important;
+                    font-size: 12px !important;
+                }
+                .template-apollo .apollo-name, 
+                .template-terra .terra-name,
+                .template-tempe .tempe-name, 
+                .template-nova .nova-name,
+                .template-classic .classic-name, 
+                .template-modern .modern-name,
+                .template-professional .professional-name, 
+                .template-corporate .corporate-name,
+                .template-academic .academic-name, 
+                .template-legal .legal-name,
+                .template-artistic .artistic-name {
+                    font-size: 2rem !important;
+                }
+                .template-apollo .apollo-section-title, 
+                .template-terra .terra-section-title,
+                .template-tempe .tempe-section-title, 
+                .template-nova .nova-section-title,
+                .template-classic .classic-section-title, 
+                .template-modern .modern-section-title,
+                .template-professional .professional-section-title, 
+                .template-corporate .corporate-section-title,
+                .template-academic .academic-section-title, 
+                .template-legal .legal-section-title,
+                .template-artistic .artistic-section-title {
+                    font-size: 1.2rem !important;
+                }
+                .template-apollo .apollo-job-title, 
+                .template-terra .terra-job-title,
+                .template-tempe .tempe-job-title, 
+                .template-nova .nova-job-title,
+                .template-classic .classic-job-title, 
+                .template-modern .modern-job-title,
+                .template-professional .professional-job-title, 
+                .template-corporate .corporate-job-title,
+                .template-academic .academic-job-title, 
+                .template-legal .legal-job-title,
+                .template-artistic .artistic-job-title {
+                    font-size: 1.1rem !important;
+                }
+                .template-apollo .apollo-company, 
+                .template-terra .terra-company,
+                .template-tempe .tempe-company, 
+                .template-nova .nova-company,
+                .template-classic .classic-company, 
+                .template-modern .modern-company,
+                .template-professional .professional-company, 
+                .template-corporate .corporate-company,
+                .template-academic .academic-company, 
+                .template-legal .legal-company,
+                .template-artistic .artistic-company {
+                    font-size: 1rem !important;
+                }
+            }
         `;
         pdfContent.appendChild(style);
         
@@ -1300,7 +1385,7 @@ async function downloadPDF() {
         document.body.appendChild(pdfContent);
         
         // Wait for rendering to complete
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 300));
         
         // Generate PDF with enhanced configuration
         const options = {
@@ -1312,7 +1397,10 @@ async function downloadPDF() {
                 useCORS: true,
                 allowTaint: true,
                 logging: false,
-                backgroundColor: '#ffffff'
+                backgroundColor: '#ffffff',
+                // Mobile-specific settings
+                windowWidth: window.innerWidth,
+                windowHeight: window.innerHeight
             },
             jsPDF: { 
                 unit: 'mm', 
@@ -1321,8 +1409,37 @@ async function downloadPDF() {
             }
         };
         
-        // Generate and download PDF
-        await html2pdf().from(pdfContent).set(options).save();
+        // Try to generate PDF with different approaches for mobile
+        try {
+            // First attempt with standard approach
+            await html2pdf().from(pdfContent).set(options).save();
+        } catch (error) {
+            // Fallback for mobile browsers that might have issues
+            console.warn('First PDF generation failed, trying alternative approach:', error);
+            
+            // Alternative approach for mobile
+            const canvas = await html2canvas(pdfContent, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            });
+            
+            const imgData = canvas.toDataURL('image/jpeg', 0.98);
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            const imgWidth = canvas.width * 0.264583; // Convert px to mm
+            const imgHeight = canvas.height * 0.264583;
+            let heightLeft = imgHeight;
+            let position = 0;
+            
+            pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight);
+            
+            // Save the PDF
+            pdf.save('resume.pdf');
+        }
         
         // Clean up
         document.body.removeChild(pdfContent);
