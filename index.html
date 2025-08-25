@@ -104,38 +104,6 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        .auth-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .auth-btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: var(--radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .login-btn {
-            background: white;
-            color: var(--primary);
-        }
-
-        .signup-btn {
-            background: var(--accent);
-            color: white;
-        }
-
-        .logout-btn {
-            background: var(--danger);
-            color: white;
-        }
-
         /* Main Content */
         .main-content {
             display: flex;
@@ -513,104 +481,7 @@
             background: var(--primary);
         }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--white);
-            border-radius: var(--radius-xl);
-            width: 100%;
-            max-width: 500px;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-        }
-
-        body.dark-mode .modal-content {
-            background: #1e293b;
-        }
-
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid var(--border);
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        body.dark-mode .modal-header {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .close-modal {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-
-        .close-modal:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 25px;
-            margin-top: 50px;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            border-top: 1px solid var(--border);
-            font-weight: 500;
-        }
-
-        footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Template Styles */
+        /* Resume Templates */
         .template-apollo {
             font-family: 'Inter', sans-serif;
             color: #1e293b;
@@ -698,7 +569,7 @@
             margin-left: 15px;
         }
 
-        /* Other template styles remain the same... */
+        /* Terra Template */
         .template-terra {
             font-family: 'Inter', sans-serif;
             color: #1e293b;
@@ -844,9 +715,6 @@
                     <button id="theme-toggle" class="theme-toggle">
                         <i class="fas fa-moon"></i>
                     </button>
-                    <div id="auth-container" class="auth-buttons">
-                        <!-- Auth buttons will be inserted here -->
-                    </div>
                 </div>
             </div>
         </div>
@@ -1036,34 +904,6 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast">Notification</div>
 
-    <!-- Auth Modal -->
-    <div id="auth-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="auth-modal-title" class="modal-title">Sign In</h3>
-                <button id="close-modal" class="close-modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="auth-form">
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" id="auth-email" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <input type="password" id="auth-password" class="form-control" required minlength="6">
-                    </div>
-                    <button type="submit" id="auth-btn" class="btn btn-primary">Sign In</button>
-                </form>
-                <div class="toggle-auth">
-                    Don't have an account? <a href="#" id="toggle-auth">Sign Up</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
@@ -1114,17 +954,8 @@
         };
 
         // DOM Elements
-        const authModal = document.getElementById('auth-modal');
-        const closeModal = document.getElementById('close-modal');
-        const authForm = document.getElementById('auth-form');
-        const authEmail = document.getElementById('auth-email');
-        const authPassword = document.getElementById('auth-password');
-        const authBtn = document.getElementById('auth-btn');
-        const authModalTitle = document.getElementById('auth-modal-title');
-        const toggleAuth = document.getElementById('toggle-auth');
         const toast = document.getElementById('toast');
         const themeToggle = document.getElementById('theme-toggle');
-        const authContainer = document.getElementById('auth-container');
         const nameInput = document.getElementById('name');
         const emailInput = document.getElementById('email');
         const phoneInput = document.getElementById('phone');
@@ -1156,63 +987,6 @@
                 themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
             }
         });
-
-        // Show auth buttons based on login state
-        function updateAuthButtons() {
-            if (localStorage.getItem('isLoggedIn') === 'true') {
-                authContainer.innerHTML = `<button class="logout-btn auth-btn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>`;
-                document.querySelector('.logout-btn').addEventListener('click', logout);
-            } else {
-                authContainer.innerHTML = `<button class="login-btn auth-btn">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </button>
-                <button class="signup-btn auth-btn">
-                    <i class="fas fa-user-plus"></i> Sign Up
-                </button>`;
-                
-                document.querySelector('.login-btn').addEventListener('click', () => openAuthModal('Sign In'));
-                document.querySelector('.signup-btn').addEventListener('click', () => openAuthModal('Sign Up'));
-            }
-        }
-
-        // Open auth modal
-        function openAuthModal(title) {
-            authModalTitle.textContent = title;
-            authModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // Close auth modal
-        function closeAuthModal() {
-            authModal.classList.remove('show');
-            document.body.style.overflow = '';
-        }
-
-        // Login function
-        function login(email, password) {
-            // Simple validation
-            if (email && password) {
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('userEmail', email);
-                closeAuthModal();
-                updateAuthButtons();
-                showToast('Login successful!', 'success');
-                return true;
-            } else {
-                showToast('Please enter valid credentials', 'error');
-                return false;
-            }
-        }
-
-        // Logout function
-        function logout() {
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userEmail');
-            updateAuthButtons();
-            showToast('Logged out successfully', 'info');
-        }
 
         // Show toast notification
         function showToast(message, type = 'info') {
@@ -1476,13 +1250,6 @@
 
         // Download PDF - FIXED VERSION
         function downloadPDF() {
-            // Check if user is logged in
-            if (localStorage.getItem('isLoggedIn') !== 'true') {
-                showToast('Please log in to download PDF', 'error');
-                openAuthModal('Sign In');
-                return;
-            }
-
             // Get the content to convert to PDF
             const element = document.createElement('div');
             element.innerHTML = `
@@ -1765,36 +1532,7 @@
             });
         });
 
-        // Auth Form Handling
-        authForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = authEmail.value;
-            const password = authPassword.value;
-            login(email, password);
-        });
-
-        // Close modal
-        closeModal.addEventListener('click', closeAuthModal);
-
-        // Toggle auth
-        toggleAuth.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (authModalTitle.textContent === 'Sign In') {
-                authModalTitle.textContent = 'Sign Up';
-            } else {
-                authModalTitle.textContent = 'Sign In';
-            }
-        });
-
-        // Close modal when clicking outside
-        authModal.addEventListener('click', (e) => {
-            if (e.target === authModal) {
-                closeAuthModal();
-            }
-        });
-
         // Initialize
-        updateAuthButtons();
         updatePreview();
         renderExperienceSection();
         renderEducationSection();
