@@ -27,7 +27,6 @@
             --radius-xl: 1rem;
             --transition: all 0.3s ease;
         }
-
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -36,18 +35,15 @@
             color: var(--text-primary);
             transition: var(--transition);
         }
-
         body.dark-mode {
             background: #0f172a;
             color: var(--text-light);
         }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
         }
-
         /* Header */
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -56,19 +52,16 @@
             top: 0;
             z-index: 1000;
         }
-
         body.dark-mode header {
             background: linear-gradient(135deg, #2563eb, #4338ca);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
-
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
         }
-
         .logo {
             display: flex;
             align-items: center;
@@ -78,13 +71,11 @@
             color: white;
             text-decoration: none;
         }
-
         .header-actions {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-
         .theme-toggle {
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -99,18 +90,15 @@
             align-items: center;
             justify-content: center;
         }
-
         .theme-toggle:hover {
             background: rgba(255, 255, 255, 0.3);
         }
-
         /* Main Content */
         .main-content {
             display: flex;
             gap: 2rem;
             margin: 2rem 0;
         }
-
         .sidebar {
             width: 300px;
             background: var(--white);
@@ -123,16 +111,13 @@
             border-radius: var(--radius-xl);
             border: 1px solid var(--border);
         }
-
         body.dark-mode .sidebar {
             background: #1e293b;
             border-color: rgba(255, 255, 255, 0.1);
         }
-
         .sidebar-section {
             margin-bottom: 1.5rem;
         }
-
         .sidebar-title {
             font-size: 1.2rem;
             font-weight: 700;
@@ -141,18 +126,15 @@
             border-bottom: 2px solid var(--primary);
             padding-bottom: 0.5rem;
         }
-
         .form-group {
             margin-bottom: 1.5rem;
         }
-
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
             color: var(--text-secondary);
         }
-
         .form-control {
             width: 100%;
             padding: 0.75rem;
@@ -161,24 +143,20 @@
             font-family: inherit;
             transition: var(--transition);
         }
-
         body.dark-mode .form-control {
             background: var(--gray-dark);
             border-color: rgba(255, 255, 255, 0.2);
             color: var(--text-light);
         }
-
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
-
         textarea.form-control {
             resize: vertical;
             min-height: 100px;
         }
-
         .btn {
             display: inline-flex;
             align-items: center;
@@ -191,35 +169,28 @@
             cursor: pointer;
             transition: var(--transition);
         }
-
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
         }
-
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow);
         }
-
         .btn-outline {
             background: transparent;
             border: 1px solid var(--border);
             color: var(--text-primary);
         }
-
         body.dark-mode .btn-outline {
             border-color: rgba(255, 255, 255, 0.1);
         }
-
         .btn-outline:hover {
             background: var(--gray);
         }
-
         body.dark-mode .btn-outline:hover {
             background: rgba(255, 255, 255, 0.1);
         }
-
         /* Editor Area */
         .editor-area {
             flex: 1;
@@ -233,12 +204,10 @@
             border-radius: var(--radius-xl);
             border: 1px solid var(--border);
         }
-
         body.dark-mode .editor-area {
             background: #1e293b;
             border-color: rgba(255, 255, 255, 0.1);
         }
-
         .editor-toolbar {
             display: flex;
             gap: 0.5rem;
@@ -246,28 +215,23 @@
             border-bottom: 1px solid var(--border);
             margin-bottom: 1rem;
         }
-
         body.dark-mode .editor-toolbar {
             border-color: rgba(255, 255, 255, 0.1);
         }
-
         .toolbar-group {
             display: flex;
             gap: 0.25rem;
             padding: 0 0.5rem;
             border-right: 1px solid var(--border);
         }
-
         body.dark-mode .toolbar-group {
             border-color: rgba(255, 255, 255, 0.1);
         }
-
         .toolbar-group:last-child {
             border-right: none;
             padding-right: 0;
             margin-right: 0;
         }
-
         .toolbar-btn {
             background: transparent;
             border: none;
@@ -281,20 +245,16 @@
             cursor: pointer;
             transition: var(--transition);
         }
-
         .toolbar-btn:hover {
             background: var(--gray);
             color: var(--primary);
         }
-
         body.dark-mode .toolbar-btn:hover {
             background: rgba(255, 255, 255, 0.1);
         }
-
         .toolbar-btn:active {
             transform: translateY(1px);
         }
-
         .editor-content {
             flex: 1;
             background: var(--white);
@@ -305,56 +265,46 @@
             overflow-y: auto;
             transition: var(--transition);
         }
-
         body.dark-mode .editor-content {
             background: rgba(30, 41, 59, 0.9);
             border-color: rgba(255, 255, 255, 0.1);
             color: var(--text-light);
         }
-
         .editor-content[contenteditable="true"]:focus {
             outline: none;
         }
-
         .editor-content p {
             margin-bottom: 1rem;
         }
-
         .editor-content h1 {
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
             color: var(--text-primary);
         }
-
         .editor-content h2 {
             font-size: 1.8rem;
             font-weight: 700;
             margin: 1.5rem 0 1rem;
             color: var(--text-primary);
         }
-
         .editor-content h3 {
             font-size: 1.4rem;
             font-weight: 600;
             margin: 1.2rem 0 0.8rem;
             color: var(--text-primary);
         }
-
         .editor-content ul {
             margin: 1rem 0;
             padding-left: 1.5rem;
         }
-
         .editor-content ol {
             margin: 1rem 0;
             padding-left: 1.5rem;
         }
-
         .editor-content li {
             margin-bottom: 0.5rem;
         }
-
         .editor-content blockquote {
             border-left: 4px solid var(--primary);
             margin: 1.5rem 0;
@@ -362,30 +312,25 @@
             background: rgba(67, 97, 238, 0.05);
             font-style: italic;
         }
-
         body.dark-mode .editor-content blockquote {
             border-color: var(--primary);
             background: rgba(67, 97, 238, 0.1);
         }
-
         .editor-actions {
             display: flex;
             gap: 1rem;
             margin-top: 1.5rem;
         }
-
         /* Templates */
         .templates-section {
             margin: 2rem 0;
         }
-
         .template-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1.5rem;
             margin-top: 1rem;
         }
-
         .template-item {
             background: var(--white);
             border-radius: var(--radius-xl);
@@ -396,21 +341,17 @@
             border: 2px solid transparent;
             box-shadow: var(--shadow);
         }
-
         body.dark-mode .template-item {
             background: #1e293b;
             border-color: rgba(255, 255, 255, 0.1);
         }
-
         .template-item:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
         }
-
         .template-item.selected {
             box-shadow: 0 0 0 3px var(--accent);
         }
-
         .template-preview {
             height: 120px;
             display: flex;
@@ -421,7 +362,6 @@
             font-size: 1.1rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
         }
-
         .template-preview.apollo { background: linear-gradient(135deg, #4361ee, #3a0ca3); }
         .template-preview.terra { background: linear-gradient(135deg, #f97316, #ea580c); }
         .template-preview.tempe { background: linear-gradient(135deg, #059669, #047857); }
@@ -433,20 +373,17 @@
         .template-preview.academic { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
         .template-preview.legal { background: linear-gradient(135deg, #059669, #047857); }
         .template-preview.artistic { background: linear-gradient(135deg, #f59e0b, #d97706); }
-
         .template-name {
             margin-top: 0.5rem;
             font-size: 1rem;
             font-weight: 600;
         }
-
         .template-type {
             display: block;
             font-size: 0.8rem;
             color: var(--gray);
             margin-top: 0.25rem;
         }
-
         /* Toast Notification */
         .toast {
             position: fixed;
@@ -464,43 +401,35 @@
             transform: translateX(200%);
             transition: transform 0.3s ease;
         }
-
         .toast.show {
             transform: translateX(0);
         }
-
         .toast-success {
             background: var(--success);
         }
-
         .toast-error {
             background: var(--danger);
         }
-
         .toast-info {
             background: var(--primary);
         }
-
         /* Resume Templates */
         .template-apollo {
             font-family: 'Inter', sans-serif;
             color: #1e293b;
         }
-
         .apollo-header {
             text-align: center;
             margin-bottom: 35px;
             padding-bottom: 25px;
             border-bottom: 4px solid #3a0ca3;
         }
-
         .apollo-name {
             font-size: 2.8rem;
             font-weight: 800;
             color: #3a0ca3;
             margin-bottom: 0.5rem;
         }
-
         .apollo-contact {
             display: flex;
             justify-content: center;
@@ -508,7 +437,6 @@
             margin-top: 1rem;
             flex-wrap: wrap;
         }
-
         .apollo-contact span {
             display: flex;
             align-items: center;
@@ -516,11 +444,9 @@
             color: #3a0ca3;
             font-size: 1.2rem;
         }
-
         .apollo-section {
             margin-bottom: 30px;
         }
-
         .apollo-section-title {
             font-size: 1.6rem;
             font-weight: 700;
@@ -529,7 +455,6 @@
             position: relative;
             padding-left: 30px;
         }
-
         .apollo-section-title::before {
             content: "";
             position: absolute;
@@ -540,55 +465,46 @@
             height: 3px;
             background: #3a0ca3;
         }
-
         .apollo-experience-item {
             margin-bottom: 20px;
         }
-
         .apollo-job-title {
             font-size: 1.4rem;
             font-weight: 700;
             color: #3a0ca3;
         }
-
         .apollo-company {
             font-size: 1.2rem;
             font-weight: 600;
             color: #4361ee;
             margin: 5px 0;
         }
-
         .apollo-date {
             font-size: 1.1rem;
             color: #3a0ca3;
             margin-bottom: 10px;
         }
-
         .apollo-description {
             color: #475569;
             margin-left: 15px;
         }
-
         /* Terra Template */
         .template-terra {
             font-family: 'Inter', sans-serif;
             color: #1e293b;
         }
-
         .terra-header {
             text-align: center;
             margin-bottom: 35px;
             padding-bottom: 25px;
             border-bottom: 4px solid #ea580c;
         }
-
         .terra-name {
             font-size: 2.8rem;
             font-weight: 800;
             color: #ea580c;
             margin-bottom: 0.5rem;
         }
-
         .terra-contact {
             display: flex;
             justify-content: center;
@@ -596,7 +512,6 @@
             margin-top: 1rem;
             flex-wrap: wrap;
         }
-
         .terra-contact span {
             display: flex;
             align-items: center;
@@ -604,11 +519,9 @@
             color: #ea580c;
             font-size: 1.2rem;
         }
-
         .terra-section {
             margin-bottom: 30px;
         }
-
         .terra-section-title {
             font-size: 1.6rem;
             font-weight: 700;
@@ -617,7 +530,6 @@
             position: relative;
             padding-left: 30px;
         }
-
         .terra-section-title::before {
             content: "";
             position: absolute;
@@ -628,74 +540,59 @@
             height: 3px;
             background: #ea580c;
         }
-
         .terra-experience-item {
             margin-bottom: 20px;
         }
-
         .terra-job-title {
             font-size: 1.4rem;
             font-weight: 700;
             color: #ea580c;
         }
-
         .terra-company {
             font-size: 1.2rem;
             font-weight: 600;
             color: #f97316;
             margin: 5px 0;
         }
-
         .terra-date {
             font-size: 1.1rem;
             color: #ea580c;
             margin-bottom: 10px;
         }
-
         .terra-description {
             color: #475569;
             margin-left: 15px;
         }
-
         /* Other templates would continue similarly */
-
         /* Responsive Design */
         @media (max-width: 1200px) {
             .main-content {
                 flex-direction: column;
             }
-
             .sidebar {
                 width: 100%;
             }
-
             .template-grid {
                 grid-template-columns: 1fr;
             }
         }
-
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 gap: 1rem;
             }
-
             .main-content {
                 margin: 1rem 0;
             }
-
             .sidebar {
                 padding: 1rem;
             }
-
             .editor-area {
                 padding: 1rem;
             }
-
             .editor-toolbar {
                 flex-wrap: wrap;
             }
-
             .toolbar-group {
                 flex-wrap: wrap;
             }
@@ -719,7 +616,6 @@
             </div>
         </div>
     </header>
-
     <!-- Main Content -->
     <div class="container">
         <div class="main-content">
@@ -745,7 +641,6 @@
                         <input type="text" id="location" class="form-control" placeholder="City, Country">
                     </div>
                 </div>
-
                 <!-- Skills -->
                 <div class="sidebar-section">
                     <h3 class="sidebar-title"><i class="fas fa-code"></i> Skills</h3>
@@ -754,7 +649,6 @@
                         <input type="text" id="skills" class="form-control" placeholder="JavaScript, React, Node.js">
                     </div>
                 </div>
-
                 <!-- Work Experience -->
                 <div class="sidebar-section">
                     <h3 class="sidebar-title"><i class="fas fa-briefcase"></i> Work Experience</h3>
@@ -763,7 +657,6 @@
                         <i class="fas fa-plus"></i> Add Experience
                     </button>
                 </div>
-
                 <!-- Education -->
                 <div class="sidebar-section">
                     <h3 class="sidebar-title"><i class="fas fa-graduation-cap"></i> Education</h3>
@@ -772,7 +665,6 @@
                         <i class="fas fa-plus"></i> Add Education
                     </button>
                 </div>
-
                 <!-- Projects -->
                 <div class="sidebar-section">
                     <h3 class="sidebar-title"><i class="fas fa-project-diagram"></i> Projects</h3>
@@ -781,7 +673,6 @@
                         <i class="fas fa-plus"></i> Add Project
                     </button>
                 </div>
-
                 <!-- References -->
                 <div class="sidebar-section">
                     <h3 class="sidebar-title"><i class="fas fa-users"></i> References</h3>
@@ -791,7 +682,6 @@
                     </button>
                 </div>
             </div>
-
             <!-- Editor Area -->
             <div class="editor-area">
                 <!-- Editor Toolbar -->
@@ -830,13 +720,11 @@
                         </button>
                     </div>
                 </div>
-
                 <!-- Editor Content -->
                 <div id="editor-content" class="editor-content" contenteditable="true">
                     <h1>Professional Resume</h1>
                     <p>This is a sample resume. Edit this content using the editor toolbar above.</p>
                 </div>
-
                 <!-- Action Buttons -->
                 <div class="editor-actions">
                     <button id="download-pdf" class="btn btn-primary">
@@ -848,7 +736,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Templates Section -->
         <div class="templates-section">
             <h2>Choose a Template</h2>
@@ -900,10 +787,8 @@
             </div>
         </div>
     </div>
-
     <!-- Toast Notification -->
     <div id="toast" class="toast">Notification</div>
-
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
@@ -1003,10 +888,8 @@
             resumeData.personalInfo.email = emailInput.value;
             resumeData.personalInfo.phone = phoneInput.value;
             resumeData.personalInfo.location = locationInput.value;
-            
             // Update skills
             resumeData.skills = skillsInput.value.split(',').map(skill => skill.trim()).filter(skill => skill);
-            
             // Update experience
             const expElements = experienceContainer.querySelectorAll('.experience-item');
             resumeData.experience = [];
@@ -1020,7 +903,6 @@
                 };
                 resumeData.experience.push(exp);
             });
-            
             // Update education
             const eduElements = educationContainer.querySelectorAll('.education-item');
             resumeData.education = [];
@@ -1033,7 +915,6 @@
                 };
                 resumeData.education.push(edu);
             });
-            
             // Update projects
             const projectElements = projectsContainer.querySelectorAll('.project-item');
             resumeData.projects = [];
@@ -1046,7 +927,6 @@
                 };
                 resumeData.projects.push(project);
             });
-            
             // Update references
             const referenceElements = referencesContainer.querySelectorAll('.reference-item');
             resumeData.references = [];
@@ -1060,7 +940,6 @@
                 };
                 resumeData.references.push(reference);
             });
-            
             updatePreview();
         }
 
@@ -1214,12 +1093,10 @@
                             ${resumeData.personalInfo.location ? `<span><i class="fas fa-map-marker-alt"></i> ${resumeData.personalInfo.location}</span>` : ''}
                         </div>
                     </div>
-                    
                     <div class="${template}-section">
                         <h2 class="${template}-section-title">Skills</h2>
                         <p>${resumeData.skills.length > 0 ? resumeData.skills.join(', ') : 'No skills added yet'}</p>
                     </div>
-                    
                     <div class="${template}-section">
                         <h2 class="${template}-section-title">Work Experience</h2>
                         ${resumeData.experience.map(exp => `
@@ -1231,7 +1108,6 @@
                             </div>
                         `).join('')}
                     </div>
-                    
                     <div class="${template}-section">
                         <h2 class="${template}-section-title">Education</h2>
                         ${resumeData.education.map(edu => `
@@ -1244,34 +1120,37 @@
                     </div>
                 </div>
             `;
-            
             editorContent.innerHTML = previewHTML;
         }
 
         // Download PDF - FIXED VERSION
         function downloadPDF() {
-            // Get the content to convert to PDF
-            const element = document.createElement('div');
-            element.innerHTML = `
-                <div style="font-family: Arial, sans-serif; padding: 20px;">
-                    ${editorContent.innerHTML}
-                </div>
-            `;
-
-            // Apply proper CSS for PDF generation
+            // Create a new div to hold the content for PDF generation
+            const pdfContent = document.createElement('div');
+            pdfContent.id = 'pdf-content';
+            
+            // Copy the editor content but with proper styling for PDF
+            const editorClone = editorContent.cloneNode(true);
+            pdfContent.appendChild(editorClone);
+            
+            // Add CSS for PDF formatting
             const style = document.createElement('style');
             style.textContent = `
-                body {
-                    margin: 0;
-                    padding: 0;
+                #pdf-content {
                     font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                    background: white;
+                    color: black;
                 }
+                
                 .template-apollo, .template-terra, .template-tempe, .template-nova, 
                 .template-classic, .template-modern, .template-professional, 
                 .template-corporate, .template-academic, .template-legal, .template-artistic {
                     font-family: Arial, sans-serif !important;
                     color: #000 !important;
                 }
+                
                 .template-apollo .apollo-header, .template-terra .terra-header, 
                 .template-tempe .tempe-header, .template-nova .nova-header,
                 .template-classic .classic-header, .template-modern .modern-header,
@@ -1283,6 +1162,7 @@
                     padding-bottom: 25px !important;
                     border-bottom: 4px solid !important;
                 }
+                
                 .template-apollo .apollo-name, .template-terra .terra-name,
                 .template-tempe .tempe-name, .template-nova .nova-name,
                 .template-classic .classic-name, .template-modern .modern-name,
@@ -1293,6 +1173,7 @@
                     font-weight: 800 !important;
                     margin-bottom: 0.5rem !important;
                 }
+                
                 .template-apollo .apollo-contact, .template-terra .terra-contact,
                 .template-tempe .tempe-contact, .template-nova .nova-contact,
                 .template-classic .classic-contact, .template-modern .modern-contact,
@@ -1305,6 +1186,7 @@
                     margin-top: 1rem !important;
                     flex-wrap: wrap !important;
                 }
+                
                 .template-apollo .apollo-section, .template-terra .terra-section,
                 .template-tempe .tempe-section, .template-nova .nova-section,
                 .template-classic .classic-section, .template-modern .modern-section,
@@ -1313,6 +1195,7 @@
                 .template-artistic .artistic-section {
                     margin-bottom: 30px !important;
                 }
+                
                 .template-apollo .apollo-section-title, .template-terra .terra-section-title,
                 .template-tempe .tempe-section-title, .template-nova .nova-section-title,
                 .template-classic .classic-section-title, .template-modern .modern-section-title,
@@ -1325,6 +1208,7 @@
                     position: relative !important;
                     padding-left: 30px !important;
                 }
+                
                 .template-apollo .apollo-experience-item, .template-terra .terra-experience-item,
                 .template-tempe .tempe-experience-item, .template-nova .nova-experience-item,
                 .template-classic .classic-experience-item, .template-modern .modern-experience-item,
@@ -1335,6 +1219,7 @@
                     padding-left: 20px !important;
                     border-left: 3px solid !important;
                 }
+                
                 .template-apollo .apollo-job-title, .template-terra .terra-job-title,
                 .template-tempe .tempe-job-title, .template-nova .nova-job-title,
                 .template-classic .classic-job-title, .template-modern .modern-job-title,
@@ -1344,6 +1229,7 @@
                     font-size: 1.4rem !important;
                     font-weight: 700 !important;
                 }
+                
                 .template-apollo .apollo-company, .template-terra .terra-company,
                 .template-tempe .tempe-company, .template-nova .nova-company,
                 .template-classic .classic-company, .template-modern .modern-company,
@@ -1353,6 +1239,7 @@
                     font-size: 1.2rem !important;
                     font-weight: 600 !important;
                 }
+                
                 .template-apollo .apollo-date, .template-terra .terra-date,
                 .template-tempe .tempe-date, .template-nova .nova-date,
                 .template-classic .classic-date, .template-modern .modern-date,
@@ -1362,6 +1249,7 @@
                     font-size: 1.1rem !important;
                     margin-bottom: 10px !important;
                 }
+                
                 .template-apollo .apollo-description, .template-terra .terra-description,
                 .template-tempe .tempe-description, .template-nova .nova-description,
                 .template-classic .classic-description, .template-modern .modern-description,
@@ -1371,19 +1259,66 @@
                     color: #475569 !important;
                     margin-left: 15px !important;
                 }
+                
+                .template-apollo .apollo-section-title::before,
+                .template-terra .terra-section-title::before,
+                .template-tempe .tempe-section-title::before,
+                .template-nova .nova-section-title::before,
+                .template-classic .classic-section-title::before,
+                .template-modern .modern-section-title::before,
+                .template-professional .professional-section-title::before,
+                .template-corporate .corporate-section-title::before,
+                .template-academic .academic-section-title::before,
+                .template-legal .legal-section-title::before,
+                .template-artistic .artistic-section-title::before {
+                    content: "" !important;
+                    position: absolute !important;
+                    left: 0 !important;
+                    top: 50% !important;
+                    transform: translateY(-50%) !important;
+                    width: 20px !important;
+                    height: 3px !important;
+                }
+                
+                .template-apollo .apollo-section-title::before { background: #3a0ca3 !important; }
+                .template-terra .terra-section-title::before { background: #ea580c !important; }
+                .template-tempe .tempe-section-title::before { background: #059669 !important; }
+                .template-nova .nova-section-title::before { background: #db2777 !important; }
+                .template-classic .classic-section-title::before { background: #000000 !important; }
+                .template-modern .modern-section-title::before { background: #ea580c !important; }
+                .template-professional .professional-section-title::before { background: #c2410c !important; }
+                .template-corporate .corporate-section-title::before { background: #fde68a !important; }
+                .template-academic .academic-section-title::before { background: #7c3aed !important; }
+                .template-legal .legal-section-title::before { background: #059669 !important; }
+                .template-artistic .artistic-section-title::before { background: #f59e0b !important; }
             `;
-            element.appendChild(style);
-
+            
+            pdfContent.appendChild(style);
+            
+            // Add to document temporarily
+            document.body.appendChild(pdfContent);
+            
             // Generate PDF
             const options = {
                 margin: 10,
                 filename: 'resume.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
             };
-
-            html2pdf().from(element).set(options).save();
+            
+            html2pdf().from(pdfContent).set(options).save();
+            
+            // Remove temporary element
+            document.body.removeChild(pdfContent);
         }
 
         // Event Listeners
@@ -1429,7 +1364,6 @@
                 if (parent && parent.parentNode) {
                     parent.parentNode.removeChild(parent);
                 }
-                
                 // Remove from data
                 if (e.target.closest('#experience-container')) {
                     resumeData.experience.splice(index, 1);
@@ -1440,7 +1374,6 @@
                 } else if (e.target.closest('#references-container')) {
                     resumeData.references.splice(index, 1);
                 }
-                
                 updatePreview();
             }
         });
@@ -1539,7 +1472,7 @@
         renderProjectsSection();
         renderReferencesSection();
         renderSkills();
-
+        
         // Set initial template selection
         document.querySelector('.template-item[data-template="apollo"]').classList.add('selected');
         
