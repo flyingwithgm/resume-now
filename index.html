@@ -1492,7 +1492,7 @@ async function downloadPDF() {
                 const y = 0;
                 
                 pdf.addImage(imgData, 'JPEG', x, y, imgWidth, imgHeight);
-                pdf.save('resume.pdf');
+                pdf.save('file.pdf');
                 
                 // Clean up
                 document.body.removeChild(pdfWrapper);
