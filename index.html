@@ -6,7 +6,6 @@
     <title>Professional Resume Builder</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Your existing CSS remains unchanged */
         :root {
             --primary: #4361ee;
             --secondary: #3a0ca3;
@@ -838,7 +837,6 @@
             ],
             template: 'apollo'
         };
-
         // DOM Elements
         const toast = document.getElementById('toast');
         const themeToggle = document.getElementById('theme-toggle');
@@ -855,13 +853,11 @@
         const saveCloudBtn = document.getElementById('save-cloud');
         const templateItems = document.querySelectorAll('.template-item');
         const editorContent = document.getElementById('editor-content');
-
         // Check for saved theme preference
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
             themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
         }
-
         // Theme Toggle
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
@@ -873,7 +869,6 @@
                 themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
             }
         });
-
         // Show toast notification
         function showToast(message, type = 'info') {
             toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i><span>${message}</span>`;
@@ -882,7 +877,6 @@
                 toast.className = 'toast';
             }, 3000);
         }
-
         // Update Resume Data
         function updateResumeData() {
             resumeData.personalInfo.name = nameInput.value;
@@ -943,7 +937,6 @@
             });
             updatePreview();
         }
-
         // Render Experience Section
         function renderExperienceSection() {
             experienceContainer.innerHTML = '';
@@ -978,7 +971,6 @@
                 experienceContainer.appendChild(expElement);
             });
         }
-
         // Render Education Section
         function renderEducationSection() {
             educationContainer.innerHTML = '';
@@ -1009,7 +1001,6 @@
         educationContainer.appendChild(eduElement);
     });
 }
-
 // Render Projects Section
 function renderProjectsSection() {
     projectsContainer.innerHTML = '';
@@ -1040,7 +1031,6 @@ function renderProjectsSection() {
         projectsContainer.appendChild(projectElement);
     });
 }
-
 // Render References Section
 function renderReferencesSection() {
     referencesContainer.innerHTML = '';
@@ -1075,12 +1065,10 @@ function renderReferencesSection() {
         referencesContainer.appendChild(refElement);
     });
 }
-
 // Render Skills
 function renderSkills() {
     skillsInput.value = resumeData.skills.join(', ');
 }
-
 // Update Preview
 function updatePreview() {
     const template = resumeData.template;
@@ -1123,205 +1111,236 @@ function updatePreview() {
     `;
     editorContent.innerHTML = previewHTML;
 }
+// Enhanced PDF Generation Function - FIXED VERSION
+async function downloadPDF() {
+    try {
+        // Show loading state
+        const originalText = downloadPdfBtn.innerHTML;
+        downloadPdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+        downloadPdfBtn.disabled = true;
 
-// Download PDF - FIXED VERSION
-function downloadPDF() {
-    // Create a new div to hold the content for PDF generation
-    const pdfContent = document.createElement('div');
-    pdfContent.id = 'pdf-content';
-    
-    // Copy the editor content but with proper styling for PDF
-    const editorClone = editorContent.cloneNode(true);
-    pdfContent.appendChild(editorClone);
-    
-    // Add CSS for PDF formatting
-    const style = document.createElement('style');
-    style.textContent = `
-        #pdf-content {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: white;
-            color: black;
-        }
+        // Wait a moment to ensure all updates are rendered
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        // Create a new div to hold the content for PDF generation
+        const pdfContent = document.createElement('div');
+        pdfContent.id = 'pdf-content';
         
-        .template-apollo, .template-terra, .template-tempe, .template-nova, 
-        .template-classic, .template-modern, .template-professional, 
-        .template-corporate, .template-academic, .template-legal, .template-artistic {
-            font-family: Arial, sans-serif !important;
-            color: #000 !important;
-        }
+        // Clone the editor content with proper styling
+        const editorClone = editorContent.cloneNode(true);
+        pdfContent.appendChild(editorClone);
         
-        .template-apollo .apollo-header, .template-terra .terra-header, 
-        .template-tempe .tempe-header, .template-nova .nova-header,
-        .template-classic .classic-header, .template-modern .modern-header,
-        .template-professional .professional-header, .template-corporate .corporate-header,
-        .template-academic .academic-header, .template-legal .legal-header,
-        .template-artistic .artistic-header {
-            text-align: center !important;
-            margin-bottom: 35px !important;
-            padding-bottom: 25px !important;
-            border-bottom: 4px solid !important;
-        }
+        // Add CSS for PDF formatting with proper styling
+        const style = document.createElement('style');
+        style.textContent = `
+            #pdf-content {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                background: white;
+                color: black;
+                line-height: 1.4;
+            }
+            .template-apollo, .template-terra, .template-tempe, .template-nova, 
+            .template-classic, .template-modern, .template-professional, 
+            .template-corporate, .template-academic, .template-legal, .template-artistic {
+                font-family: Arial, sans-serif !important;
+                color: #000 !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-header, .template-terra .terra-header, 
+            .template-tempe .tempe-header, .template-nova .nova-header,
+            .template-classic .classic-header, .template-modern .modern-header,
+            .template-professional .professional-header, .template-corporate .corporate-header,
+            .template-academic .academic-header, .template-legal .legal-header,
+            .template-artistic .artistic-header {
+                text-align: center !important;
+                margin-bottom: 35px !important;
+                padding-bottom: 25px !important;
+                border-bottom: 4px solid !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-name, .template-terra .terra-name,
+            .template-tempe .tempe-name, .template-nova .nova-name,
+            .template-classic .classic-name, .template-modern .modern-name,
+            .template-professional .professional-name, .template-corporate .corporate-name,
+            .template-academic .academic-name, .template-legal .legal-name,
+            .template-artistic .artistic-name {
+                font-size: 2.8rem !important;
+                font-weight: 800 !important;
+                margin-bottom: 0.5rem !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-contact, .template-terra .terra-contact,
+            .template-tempe .tempe-contact, .template-nova .nova-contact,
+            .template-classic .classic-contact, .template-modern .modern-contact,
+            .template-professional .professional-contact, .template-corporate .corporate-contact,
+            .template-academic .academic-contact, .template-legal .legal-contact,
+            .template-artistic .artistic-contact {
+                display: flex !important;
+                justify-content: center !important;
+                gap: 2.5rem !important;
+                margin-top: 1rem !important;
+                flex-wrap: wrap !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-section, .template-terra .terra-section,
+            .template-tempe .tempe-section, .template-nova .nova-section,
+            .template-classic .classic-section, .template-modern .modern-section,
+            .template-professional .professional-section, .template-corporate .corporate-section,
+            .template-academic .academic-section, .template-legal .legal-section,
+            .template-artistic .artistic-section {
+                margin-bottom: 30px !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-section-title, .template-terra .terra-section-title,
+            .template-tempe .tempe-section-title, .template-nova .nova-section-title,
+            .template-classic .classic-section-title, .template-modern .modern-section-title,
+            .template-professional .professional-section-title, .template-corporate .corporate-section-title,
+            .template-academic .academic-section-title, .template-legal .legal-section-title,
+            .template-artistic .artistic-section-title {
+                font-size: 1.6rem !important;
+                font-weight: 700 !important;
+                margin-bottom: 15px !important;
+                position: relative !important;
+                padding-left: 30px !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-experience-item, .template-terra .terra-experience-item,
+            .template-tempe .tempe-experience-item, .template-nova .nova-experience-item,
+            .template-classic .classic-experience-item, .template-modern .modern-experience-item,
+            .template-professional .professional-experience-item, .template-corporate .corporate-experience-item,
+            .template-academic .academic-experience-item, .template-legal .legal-experience-item,
+            .template-artistic .artistic-experience-item {
+                margin-bottom: 20px !important;
+                padding-left: 20px !important;
+                border-left: 3px solid !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-job-title, .template-terra .terra-job-title,
+            .template-tempe .tempe-job-title, .template-nova .nova-job-title,
+            .template-classic .classic-job-title, .template-modern .modern-job-title,
+            .template-professional .professional-job-title, .template-corporate .corporate-job-title,
+            .template-academic .academic-job-title, .template-legal .legal-job-title,
+            .template-artistic .artistic-job-title {
+                font-size: 1.4rem !important;
+                font-weight: 700 !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-company, .template-terra .terra-company,
+            .template-tempe .tempe-company, .template-nova .nova-company,
+            .template-classic .classic-company, .template-modern .modern-company,
+            .template-professional .professional-company, .template-corporate .corporate-company,
+            .template-academic .academic-company, .template-legal .legal-company,
+            .template-artistic .artistic-company {
+                font-size: 1.2rem !important;
+                font-weight: 600 !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-date, .template-terra .terra-date,
+            .template-tempe .tempe-date, .template-nova .nova-date,
+            .template-classic .classic-date, .template-modern .modern-date,
+            .template-professional .professional-date, .template-corporate .corporate-date,
+            .template-academic .academic-date, .template-legal .legal-date,
+            .template-artistic .artistic-date {
+                font-size: 1.1rem !important;
+                margin-bottom: 10px !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-description, .template-terra .terra-description,
+            .template-tempe .tempe-description, .template-nova .nova-description,
+            .template-classic .classic-description, .template-modern .modern-description,
+            .template-professional .professional-description, .template-corporate .corporate-description,
+            .template-academic .academic-description, .template-legal .legal-description,
+            .template-artistic .artistic-description {
+                color: #475569 !important;
+                margin-left: 15px !important;
+                width: 100% !important;
+            }
+            .template-apollo .apollo-section-title::before,
+            .template-terra .terra-section-title::before,
+            .template-tempe .tempe-section-title::before,
+            .template-nova .nova-section-title::before,
+            .template-classic .classic-section-title::before,
+            .template-modern .modern-section-title::before,
+            .template-professional .professional-section-title::before,
+            .template-corporate .corporate-section-title::before,
+            .template-academic .academic-section-title::before,
+            .template-legal .legal-section-title::before,
+            .template-artistic .artistic-section-title::before {
+                content: "" !important;
+                position: absolute !important;
+                left: 0 !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+                width: 20px !important;
+                height: 3px !important;
+            }
+            .template-apollo .apollo-section-title::before { background: #3a0ca3 !important; }
+            .template-terra .terra-section-title::before { background: #ea580c !important; }
+            .template-tempe .tempe-section-title::before { background: #059669 !important; }
+            .template-nova .nova-section-title::before { background: #db2777 !important; }
+            .template-classic .classic-section-title::before { background: #000000 !important; }
+            .template-modern .modern-section-title::before { background: #ea580c !important; }
+            .template-professional .professional-section-title::before { background: #c2410c !important; }
+            .template-corporate .corporate-section-title::before { background: #fde68a !important; }
+            .template-academic .academic-section-title::before { background: #7c3aed !important; }
+            .template-legal .legal-section-title::before { background: #059669 !important; }
+            .template-artistic .artistic-section-title::before { background: #f59e0b !important; }
+            
+            /* Ensure all elements fit within A4 dimensions */
+            @page {
+                size: A4;
+                margin: 20mm;
+            }
+        `;
+        pdfContent.appendChild(style);
         
-        .template-apollo .apollo-name, .template-terra .terra-name,
-        .template-tempe .tempe-name, .template-nova .nova-name,
-        .template-classic .classic-name, .template-modern .modern-name,
-        .template-professional .professional-name, .template-corporate .corporate-name,
-        .template-academic .academic-name, .template-legal .legal-name,
-        .template-artistic .artistic-name {
-            font-size: 2.8rem !important;
-            font-weight: 800 !important;
-            margin-bottom: 0.5rem !important;
-        }
+        // Add to document temporarily
+        document.body.appendChild(pdfContent);
         
-        .template-apollo .apollo-contact, .template-terra .terra-contact,
-        .template-tempe .tempe-contact, .template-nova .nova-contact,
-        .template-classic .classic-contact, .template-modern .modern-contact,
-        .template-professional .professional-contact, .template-corporate .corporate-contact,
-        .template-academic .academic-contact, .template-legal .legal-contact,
-        .template-artistic .artistic-contact {
-            display: flex !important;
-            justify-content: center !important;
-            gap: 2.5rem !important;
-            margin-top: 1rem !important;
-            flex-wrap: wrap !important;
-        }
+        // Wait for rendering to complete
+        await new Promise(resolve => setTimeout(resolve, 500));
         
-        .template-apollo .apollo-section, .template-terra .terra-section,
-        .template-tempe .tempe-section, .template-nova .nova-section,
-        .template-classic .classic-section, .template-modern .modern-section,
-        .template-professional .professional-section, .template-corporate .corporate-section,
-        .template-academic .academic-section, .template-legal .legal-section,
-        .template-artistic .artistic-section {
-            margin-bottom: 30px !important;
-        }
+        // Generate PDF with enhanced configuration
+        const options = {
+            margin: 10,
+            filename: 'resume.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            },
+            jsPDF: { 
+                unit: 'mm', 
+                format: 'a4', 
+                orientation: 'portrait' 
+            }
+        };
         
-        .template-apollo .apollo-section-title, .template-terra .terra-section-title,
-        .template-tempe .tempe-section-title, .template-nova .nova-section-title,
-        .template-classic .classic-section-title, .template-modern .modern-section-title,
-        .template-professional .professional-section-title, .template-corporate .corporate-section-title,
-        .template-academic .academic-section-title, .template-legal .legal-section-title,
-        .template-artistic .artistic-section-title {
-            font-size: 1.6rem !important;
-            font-weight: 700 !important;
-            margin-bottom: 15px !important;
-            position: relative !important;
-            padding-left: 30px !important;
-        }
+        // Generate and download PDF
+        await html2pdf().from(pdfContent).set(options).save();
         
-        .template-apollo .apollo-experience-item, .template-terra .terra-experience-item,
-        .template-tempe .tempe-experience-item, .template-nova .nova-experience-item,
-        .template-classic .classic-experience-item, .template-modern .modern-experience-item,
-        .template-professional .professional-experience-item, .template-corporate .corporate-experience-item,
-        .template-academic .academic-experience-item, .template-legal .legal-experience-item,
-        .template-artistic .artistic-experience-item {
-            margin-bottom: 20px !important;
-            padding-left: 20px !important;
-            border-left: 3px solid !important;
-        }
+        // Clean up
+        document.body.removeChild(pdfContent);
         
-        .template-apollo .apollo-job-title, .template-terra .terra-job-title,
-        .template-tempe .tempe-job-title, .template-nova .nova-job-title,
-        .template-classic .classic-job-title, .template-modern .modern-job-title,
-        .template-professional .professional-job-title, .template-corporate .corporate-job-title,
-        .template-academic .academic-job-title, .template-legal .legal-job-title,
-        .template-artistic .artistic-job-title {
-            font-size: 1.4rem !important;
-            font-weight: 700 !important;
-        }
+        // Restore button
+        downloadPdfBtn.innerHTML = originalText;
+        downloadPdfBtn.disabled = false;
         
-        .template-apollo .apollo-company, .template-terra .terra-company,
-        .template-tempe .tempe-company, .template-nova .nova-company,
-        .template-classic .classic-company, .template-modern .modern-company,
-        .template-professional .professional-company, .template-corporate .corporate-company,
-        .template-academic .academic-company, .template-legal .legal-company,
-        .template-artistic .artistic-company {
-            font-size: 1.2rem !important;
-            font-weight: 600 !important;
-        }
+        showToast('PDF downloaded successfully!', 'success');
+    } catch (error) {
+        console.error('PDF generation error:', error);
+        showToast('Failed to generate PDF. Please try again.', 'error');
         
-        .template-apollo .apollo-date, .template-terra .terra-date,
-        .template-tempe .tempe-date, .template-nova .nova-date,
-        .template-classic .classic-date, .template-modern .modern-date,
-        .template-professional .professional-date, .template-corporate .corporate-date,
-        .template-academic .academic-date, .template-legal .legal-date,
-        .template-artistic .artistic-date {
-            font-size: 1.1rem !important;
-            margin-bottom: 10px !important;
-        }
-        
-        .template-apollo .apollo-description, .template-terra .terra-description,
-        .template-tempe .tempe-description, .template-nova .nova-description,
-        .template-classic .classic-description, .template-modern .modern-description,
-        .template-professional .professional-description, .template-corporate .corporate-description,
-        .template-academic .academic-description, .template-legal .legal-description,
-        .template-artistic .artistic-description {
-            color: #475569 !important;
-            margin-left: 15px !important;
-        }
-        
-        .template-apollo .apollo-section-title::before,
-        .template-terra .terra-section-title::before,
-        .template-tempe .tempe-section-title::before,
-        .template-nova .nova-section-title::before,
-        .template-classic .classic-section-title::before,
-        .template-modern .modern-section-title::before,
-        .template-professional .professional-section-title::before,
-        .template-corporate .corporate-section-title::before,
-        .template-academic .academic-section-title::before,
-        .template-legal .legal-section-title::before,
-        .template-artistic .artistic-section-title::before {
-            content: "" !important;
-            position: absolute !important;
-            left: 0 !important;
-            top: 50% !important;
-            transform: translateY(-50%) !important;
-            width: 20px !important;
-            height: 3px !important;
-        }
-        
-        .template-apollo .apollo-section-title::before { background: #3a0ca3 !important; }
-        .template-terra .terra-section-title::before { background: #ea580c !important; }
-        .template-tempe .tempe-section-title::before { background: #059669 !important; }
-        .template-nova .nova-section-title::before { background: #db2777 !important; }
-        .template-classic .classic-section-title::before { background: #000000 !important; }
-        .template-modern .modern-section-title::before { background: #ea580c !important; }
-        .template-professional .professional-section-title::before { background: #c2410c !important; }
-        .template-corporate .corporate-section-title::before { background: #fde68a !important; }
-        .template-academic .academic-section-title::before { background: #7c3aed !important; }
-        .template-legal .legal-section-title::before { background: #059669 !important; }
-        .template-artistic .artistic-section-title::before { background: #f59e0b !important; }
-    `;
-    
-    pdfContent.appendChild(style);
-    
-    // Add to document temporarily
-    document.body.appendChild(pdfContent);
-    
-    // Generate PDF
-    const options = {
-        margin: 10,
-        filename: 'resume.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-            scale: 2,
-            useCORS: true,
-            allowTaint: true
-        },
-        jsPDF: { 
-            unit: 'mm', 
-            format: 'a4', 
-            orientation: 'portrait' 
-        }
-    };
-    
-    html2pdf().from(pdfContent).set(options).save();
-    
-    // Remove temporary element
-    document.body.removeChild(pdfContent);
+        // Restore button even if error occurs
+        downloadPdfBtn.innerHTML = originalText;
+        downloadPdfBtn.disabled = false;
+    }
 }
-
 // Event Listeners
 document.addEventListener('input', (e) => {
     if (e.target.classList.contains('exp-job-title') ||
@@ -1356,7 +1375,6 @@ document.addEventListener('input', (e) => {
         updatePreview();
     }
 });
-
 // Remove Items
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('remove-item')) {
@@ -1378,7 +1396,6 @@ document.addEventListener('click', (e) => {
         updatePreview();
     }
 });
-
 // Add Experience
 document.getElementById('add-experience').addEventListener('click', () => {
     resumeData.experience.push({
@@ -1391,7 +1408,6 @@ document.getElementById('add-experience').addEventListener('click', () => {
     renderExperienceSection();
     updatePreview();
 });
-
 // Add Education
 document.getElementById('add-education').addEventListener('click', () => {
     resumeData.education.push({
@@ -1403,7 +1419,6 @@ document.getElementById('add-education').addEventListener('click', () => {
     renderEducationSection();
     updatePreview();
 });
-
 // Add Project
 document.getElementById('add-project').addEventListener('click', () => {
     resumeData.projects.push({
@@ -1415,7 +1430,6 @@ document.getElementById('add-project').addEventListener('click', () => {
     renderProjectsSection();
     updatePreview();
 });
-
 // Add Reference
 document.getElementById('add-reference').addEventListener('click', () => {
     resumeData.references.push({
@@ -1428,7 +1442,6 @@ document.getElementById('add-reference').addEventListener('click', () => {
     renderReferencesSection();
     updatePreview();
 });
-
 // Skills Input
 skillsInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' || e.key === ',') {
@@ -1442,7 +1455,6 @@ skillsInput.addEventListener('keypress', (e) => {
         }
     }
 });
-
 // Editor Toolbar
 document.querySelectorAll('.toolbar-btn').forEach(button => {
     button.addEventListener('click', (e) => {
@@ -1454,7 +1466,6 @@ document.querySelectorAll('.toolbar-btn').forEach(button => {
         }
     });
 });
-
 // Template Selection
 templateItems.forEach(item => {
     item.addEventListener('click', () => {
@@ -1465,7 +1476,6 @@ templateItems.forEach(item => {
         updatePreview();
     });
 });
-
 // Initialize
 updatePreview();
 renderExperienceSection();
@@ -1473,10 +1483,8 @@ renderEducationSection();
 renderProjectsSection();
 renderReferencesSection();
 renderSkills();
-
 // Set initial template selection
 document.querySelector('.template-item[data-template="apollo"]').classList.add('selected');
-
 // Add event listener for download PDF
 downloadPdfBtn.addEventListener('click', downloadPDF);
     </script>
