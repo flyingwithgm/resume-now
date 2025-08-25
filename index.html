@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Professional Resume Builder</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -597,6 +597,17 @@
                 flex-wrap: wrap;
             }
         }
+        /* Mobile-specific fixes */
+        @media (max-width: 768px) {
+            .editor-content {
+                padding: 1rem;
+                min-height: 500px;
+            }
+            .btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -791,6 +802,8 @@
     <div id="toast" class="toast">Notification</div>
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         // Resume Data
         let resumeData = {
@@ -1111,7 +1124,8 @@ function updatePreview() {
     `;
     editorContent.innerHTML = previewHTML;
 }
-// Enhanced PDF Generation Function - FIXED VERSION FOR MOBILE
+
+// Enhanced PDF Generation Function - MULTIPLE ALTERNATIVES
 async function downloadPDF() {
     try {
         // Show loading state
@@ -1119,29 +1133,42 @@ async function downloadPDF() {
         downloadPdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
         downloadPdfBtn.disabled = true;
 
-        // Wait a moment to ensure all updates are rendered
-        await new Promise(resolve => setTimeout(resolve, 200));
+        // Add delay to ensure all content is rendered
+        await new Promise(resolve => setTimeout(resolve, 300));
 
-        // Create a new div to hold the content for PDF generation
-        const pdfContent = document.createElement('div');
-        pdfContent.id = 'pdf-content';
+        // Get the current content with proper styling
+        const contentToPrint = document.getElementById('editor-content').cloneNode(true);
         
-        // Clone the editor content with proper styling
-        const editorClone = editorContent.cloneNode(true);
-        pdfContent.appendChild(editorClone);
+        // Create a wrapper div with specific styling for PDF generation
+        const pdfWrapper = document.createElement('div');
+        pdfWrapper.id = 'pdf-wrapper';
+        pdfWrapper.style.cssText = `
+            font-family: Arial, sans-serif;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: black;
+            line-height: 1.4;
+            box-sizing: border-box;
+        `;
         
-        // Add CSS for PDF formatting with proper styling
+        // Add content to wrapper
+        pdfWrapper.appendChild(contentToPrint);
+        
+        // Add CSS for PDF styling
         const style = document.createElement('style');
         style.textContent = `
-            #pdf-content {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 20px;
-                background: white;
-                color: black;
-                line-height: 1.4;
+            #pdf-wrapper {
+                font-family: Arial, sans-serif !important;
                 width: 100% !important;
                 max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+                line-height: 1.4 !important;
                 box-sizing: border-box !important;
             }
             .template-apollo, .template-terra, .template-tempe, .template-nova, 
@@ -1313,15 +1340,9 @@ async function downloadPDF() {
             .template-legal .legal-section-title::before { background: #059669 !important; }
             .template-artistic .artistic-section-title::before { background: #f59e0b !important; }
             
-            /* Ensure all elements fit within A4 dimensions */
-            @page {
-                size: A4;
-                margin: 20mm;
-            }
-            
             /* Mobile-specific fixes */
             @media screen and (max-width: 768px) {
-                #pdf-content {
+                #pdf-wrapper {
                     padding: 10px !important;
                     font-size: 12px !important;
                 }
@@ -1379,76 +1400,152 @@ async function downloadPDF() {
                 }
             }
         `;
-        pdfContent.appendChild(style);
+        pdfWrapper.appendChild(style);
         
         // Add to document temporarily
-        document.body.appendChild(pdfContent);
+        document.body.appendChild(pdfWrapper);
         
-        // Wait for rendering to complete
-        await new Promise(resolve => setTimeout(resolve, 300));
+        // Force reflow to ensure rendering
+        await new Promise(resolve => {
+            setTimeout(() => {
+                // Check if we're on mobile and adjust accordingly
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if (isMobile) {
+                    // For mobile, add extra delay and force scroll
+                    window.scrollTo(0, 0);
+                    setTimeout(resolve, 100);
+                } else {
+                    resolve();
+                }
+            }, 100);
+        });
         
-        // Generate PDF with enhanced configuration
-        const options = {
-            margin: 10,
-            filename: 'resume.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { 
-                scale: 2,
-                useCORS: true,
-                allowTaint: true,
-                logging: false,
-                backgroundColor: '#ffffff',
-                // Mobile-specific settings
-                windowWidth: window.innerWidth,
-                windowHeight: window.innerHeight
-            },
-            jsPDF: { 
-                unit: 'mm', 
-                format: 'a4', 
-                orientation: 'portrait' 
-            }
-        };
-        
-        // Try to generate PDF with different approaches for mobile
+        // Attempt 1: Direct html2pdf approach
         try {
-            // First attempt with standard approach
-            await html2pdf().from(pdfContent).set(options).save();
-        } catch (error) {
-            // Fallback for mobile browsers that might have issues
-            console.warn('First PDF generation failed, trying alternative approach:', error);
+            const options = {
+                margin: 10,
+                filename: 'resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    // Mobile-specific settings
+                    windowWidth: window.innerWidth,
+                    windowHeight: window.innerHeight,
+                    // Additional mobile-friendly options
+                    dpi: 192,
+                    letterRendering: true
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
+            };
             
-            // Alternative approach for mobile
-            const canvas = await html2canvas(pdfContent, {
-                scale: 2,
-                useCORS: true,
-                allowTaint: true,
-                logging: false,
-                backgroundColor: '#ffffff'
-            });
+            // Try to generate PDF with html2pdf
+            await html2pdf().from(pdfWrapper).set(options).save();
             
-            const imgData = canvas.toDataURL('image/jpeg', 0.98);
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = pdf.internal.pageSize.getHeight();
-            const imgWidth = canvas.width * 0.264583; // Convert px to mm
-            const imgHeight = canvas.height * 0.264583;
-            let heightLeft = imgHeight;
-            let position = 0;
+            // If successful, clean up and exit
+            document.body.removeChild(pdfWrapper);
+            downloadPdfBtn.innerHTML = originalText;
+            downloadPdfBtn.disabled = false;
+            showToast('PDF downloaded successfully!', 'success');
+            return;
+        } catch (html2pdfError) {
+            console.warn('html2pdf failed, trying alternative methods:', html2pdfError);
             
-            pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight);
-            
-            // Save the PDF
-            pdf.save('resume.pdf');
+            // Attempt 2: Direct html2canvas + jsPDF approach
+            try {
+                // Create a canvas using html2canvas
+                const canvas = await html2canvas(pdfWrapper, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    // Mobile-specific settings
+                    windowWidth: window.innerWidth,
+                    windowHeight: window.innerHeight,
+                    // Additional options for better compatibility
+                    dpi: 192,
+                    letterRendering: true,
+                    // Prevent scaling issues
+                    width: pdfWrapper.scrollWidth,
+                    height: pdfWrapper.scrollHeight
+                });
+                
+                // Convert to PDF using jsPDF
+                const { jsPDF } = window.jspdf;
+                const imgData = canvas.toDataURL('image/jpeg', 0.98);
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = canvas.width * 0.264583; // Convert px to mm
+                const imgHeight = canvas.height * 0.264583;
+                
+                // Center the image
+                const x = (pdfWidth - imgWidth) / 2;
+                const y = 0;
+                
+                pdf.addImage(imgData, 'JPEG', x, y, imgWidth, imgHeight);
+                pdf.save('resume.pdf');
+                
+                // Clean up
+                document.body.removeChild(pdfWrapper);
+                downloadPdfBtn.innerHTML = originalText;
+                downloadPdfBtn.disabled = false;
+                showToast('PDF downloaded successfully!', 'success');
+                return;
+            } catch (canvasError) {
+                console.warn('html2canvas approach failed too:', canvasError);
+                
+                // Attempt 3: Fallback to blob approach with explicit content
+                try {
+                    // Create a simpler version for mobile
+                    const simpleContent = document.createElement('div');
+                    simpleContent.style.cssText = `
+                        font-family: Arial, sans-serif;
+                        padding: 20px;
+                        width: 100%;
+                        max-width: 100%;
+                        box-sizing: border-box;
+                    `;
+                    
+                    // Extract text content only for fallback
+                    const textContent = document.getElementById('editor-content').innerText;
+                    simpleContent.innerHTML = `<pre>${textContent}</pre>`;
+                    
+                    // Try to save as blob
+                    const blob = new Blob([simpleContent.outerHTML], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'resume-fallback.html';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    // Clean up
+                    document.body.removeChild(pdfWrapper);
+                    downloadPdfBtn.innerHTML = originalText;
+                    downloadPdfBtn.disabled = false;
+                    showToast('Fallback saved as HTML file. Please open in browser to print.', 'info');
+                    return;
+                } catch (fallbackError) {
+                    console.error('All methods failed:', fallbackError);
+                    // Final fallback: alert user
+                    document.body.removeChild(pdfWrapper);
+                    downloadPdfBtn.innerHTML = originalText;
+                    downloadPdfBtn.disabled = false;
+                    showToast('PDF generation failed. Please try again or use browser print function.', 'error');
+                }
+            }
         }
-        
-        // Clean up
-        document.body.removeChild(pdfContent);
-        
-        // Restore button
-        downloadPdfBtn.innerHTML = originalText;
-        downloadPdfBtn.disabled = false;
-        
-        showToast('PDF downloaded successfully!', 'success');
     } catch (error) {
         console.error('PDF generation error:', error);
         showToast('Failed to generate PDF. Please try again.', 'error');
@@ -1458,6 +1555,7 @@ async function downloadPDF() {
         downloadPdfBtn.disabled = false;
     }
 }
+
 // Event Listeners
 document.addEventListener('input', (e) => {
     if (e.target.classList.contains('exp-job-title') ||
