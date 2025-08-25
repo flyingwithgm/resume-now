@@ -6,6 +6,7 @@
     <title>Professional Resume Builder</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Your existing CSS remains unchanged */
         :root {
             --primary: #4361ee;
             --secondary: #3a0ca3;
@@ -983,501 +984,501 @@
             educationContainer.innerHTML = '';
             resumeData.education.forEach((edu, index) => {
                 const eduElement = document.createElement('div');
-                eduElement.className = 'education-item';
-                eduElement.innerHTML = `
-                    <div class="form-group">
-                        <label class="form-label">School</label>
-                        <input type="text" class="form-control edu-school" data-index="${index}" value="${edu.school || ''}" placeholder="University Name">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Degree</label>
-                        <input type="text" class="form-control edu-degree" data-index="${index}" value="${edu.degree || ''}" placeholder="Bachelor's Degree">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Start Date</label>
-                        <input type="text" class="form-control edu-start-date" data-index="${index}" value="${edu.startDate || ''}" placeholder="MM/YYYY">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">End Date</label>
-                        <input type="text" class="form-control edu-end-date" data-index="${index}" value="${edu.endDate || ''}" placeholder="MM/YYYY">
-                    </div>
-                    <button class="btn btn-outline remove-item" data-index="${index}">
-                        <i class="fas fa-trash"></i> Remove
-                    </button>
-                `;
-                educationContainer.appendChild(eduElement);
-            });
-        }
+        eduElement.className = 'education-item';
+        eduElement.innerHTML = `
+            <div class="form-group">
+                <label class="form-label">School</label>
+                <input type="text" class="form-control edu-school" data-index="${index}" value="${edu.school || ''}" placeholder="University Name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Degree</label>
+                <input type="text" class="form-control edu-degree" data-index="${index}" value="${edu.degree || ''}" placeholder="Bachelor's Degree">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Start Date</label>
+                <input type="text" class="form-control edu-start-date" data-index="${index}" value="${edu.startDate || ''}" placeholder="MM/YYYY">
+            </div>
+            <div class="form-group">
+                <label class="form-label">End Date</label>
+                <input type="text" class="form-control edu-end-date" data-index="${index}" value="${edu.endDate || ''}" placeholder="MM/YYYY">
+            </div>
+            <button class="btn btn-outline remove-item" data-index="${index}">
+                <i class="fas fa-trash"></i> Remove
+            </button>
+        `;
+        educationContainer.appendChild(eduElement);
+    });
+}
 
-        // Render Projects Section
-        function renderProjectsSection() {
-            projectsContainer.innerHTML = '';
-            resumeData.projects.forEach((project, index) => {
-                const projectElement = document.createElement('div');
-                projectElement.className = 'project-item';
-                projectElement.innerHTML = `
-                    <div class="form-group">
-                        <label class="form-label">Project Name</label>
-                        <input type="text" class="form-control project-name" data-index="${index}" value="${project.name || ''}" placeholder="Project Name">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Technologies</label>
-                        <input type="text" class="form-control project-technologies" data-index="${index}" value="${project.technologies || ''}" placeholder="React, Node.js, MongoDB">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Description</label>
-                        <textarea class="form-control project-description" data-index="${index}" rows="3" placeholder="Project description...">${project.description || ''}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Link</label>
-                        <input type="url" class="form-control project-link" data-index="${index}" value="${project.link || ''}" placeholder="https://project.com">
-                    </div>
-                    <button class="btn btn-outline remove-item" data-index="${index}">
-                        <i class="fas fa-trash"></i> Remove
-                    </button>
-                `;
-                projectsContainer.appendChild(projectElement);
-            });
-        }
+// Render Projects Section
+function renderProjectsSection() {
+    projectsContainer.innerHTML = '';
+    resumeData.projects.forEach((project, index) => {
+        const projectElement = document.createElement('div');
+        projectElement.className = 'project-item';
+        projectElement.innerHTML = `
+            <div class="form-group">
+                <label class="form-label">Project Name</label>
+                <input type="text" class="form-control project-name" data-index="${index}" value="${project.name || ''}" placeholder="Project Name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Technologies</label>
+                <input type="text" class="form-control project-technologies" data-index="${index}" value="${project.technologies || ''}" placeholder="React, Node.js, MongoDB">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea class="form-control project-description" data-index="${index}" rows="3" placeholder="Project description...">${project.description || ''}</textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Link</label>
+                <input type="url" class="form-control project-link" data-index="${index}" value="${project.link || ''}" placeholder="https://project.com">
+            </div>
+            <button class="btn btn-outline remove-item" data-index="${index}">
+                <i class="fas fa-trash"></i> Remove
+            </button>
+        `;
+        projectsContainer.appendChild(projectElement);
+    });
+}
 
-        // Render References Section
-        function renderReferencesSection() {
-            referencesContainer.innerHTML = '';
-            resumeData.references.forEach((reference, index) => {
-                const refElement = document.createElement('div');
-                refElement.className = 'reference-item';
-                refElement.innerHTML = `
-                    <div class="form-group">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control ref-name" data-index="${index}" value="${reference.name || ''}" placeholder="John Smith">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Position</label>
-                        <input type="text" class="form-control ref-position" data-index="${index}" value="${reference.position || ''}" placeholder="Position Title">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Company</label>
-                        <input type="text" class="form-control ref-company" data-index="${index}" value="${reference.company || ''}" placeholder="Company Name">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control ref-email" data-index="${index}" value="${reference.email || ''}" placeholder="john@company.com">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone</label>
-                        <input type="tel" class="form-control ref-phone" data-index="${index}" value="${reference.phone || ''}" placeholder="(555) 123-4567">
-                    </div>
-                    <button class="btn btn-outline remove-item" data-index="${index}">
-                        <i class="fas fa-trash"></i> Remove
-                    </button>
-                `;
-                referencesContainer.appendChild(refElement);
-            });
-        }
+// Render References Section
+function renderReferencesSection() {
+    referencesContainer.innerHTML = '';
+    resumeData.references.forEach((reference, index) => {
+        const refElement = document.createElement('div');
+        refElement.className = 'reference-item';
+        refElement.innerHTML = `
+            <div class="form-group">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control ref-name" data-index="${index}" value="${reference.name || ''}" placeholder="John Smith">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Position</label>
+                <input type="text" class="form-control ref-position" data-index="${index}" value="${reference.position || ''}" placeholder="Position Title">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Company</label>
+                <input type="text" class="form-control ref-company" data-index="${index}" value="${reference.company || ''}" placeholder="Company Name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control ref-email" data-index="${index}" value="${reference.email || ''}" placeholder="john@company.com">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input type="tel" class="form-control ref-phone" data-index="${index}" value="${reference.phone || ''}" placeholder="(555) 123-4567">
+            </div>
+            <button class="btn btn-outline remove-item" data-index="${index}">
+                <i class="fas fa-trash"></i> Remove
+            </button>
+        `;
+        referencesContainer.appendChild(refElement);
+    });
+}
 
-        // Render Skills
-        function renderSkills() {
-            skillsInput.value = resumeData.skills.join(', ');
-        }
+// Render Skills
+function renderSkills() {
+    skillsInput.value = resumeData.skills.join(', ');
+}
 
-        // Update Preview
-        function updatePreview() {
-            const template = resumeData.template;
-            let previewHTML = `
-                <div class="template-${template}">
-                    <div class="${template}-header">
-                        <h1 class="${template}-name">${resumeData.personalInfo.name || 'Your Name'}</h1>
-                        <div class="${template}-contact">
-                            ${resumeData.personalInfo.email ? `<span><i class="fas fa-envelope"></i> ${resumeData.personalInfo.email}</span>` : ''}
-                            ${resumeData.personalInfo.phone ? `<span><i class="fas fa-phone"></i> ${resumeData.personalInfo.phone}</span>` : ''}
-                            ${resumeData.personalInfo.location ? `<span><i class="fas fa-map-marker-alt"></i> ${resumeData.personalInfo.location}</span>` : ''}
-                        </div>
-                    </div>
-                    <div class="${template}-section">
-                        <h2 class="${template}-section-title">Skills</h2>
-                        <p>${resumeData.skills.length > 0 ? resumeData.skills.join(', ') : 'No skills added yet'}</p>
-                    </div>
-                    <div class="${template}-section">
-                        <h2 class="${template}-section-title">Work Experience</h2>
-                        ${resumeData.experience.map(exp => `
-                            <div class="${template}-experience-item">
-                                <h3 class="${template}-job-title">${exp.jobTitle || 'Job Title'}</h3>
-                                <p class="${template}-company">${exp.company || 'Company Name'}</p>
-                                <p class="${template}-date">${exp.startDate || 'MM/YYYY'} - ${exp.endDate || 'MM/YYYY'}</p>
-                                <p class="${template}-description">${exp.description || 'Job description...'}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="${template}-section">
-                        <h2 class="${template}-section-title">Education</h2>
-                        ${resumeData.education.map(edu => `
-                            <div class="${template}-experience-item">
-                                <h3 class="${template}-job-title">${edu.degree || 'Degree'}</h3>
-                                <p class="${template}-company">${edu.school || 'School Name'}</p>
-                                <p class="${template}-date">${edu.startDate || 'MM/YYYY'} - ${edu.endDate || 'MM/YYYY'}</p>
-                            </div>
-                        `).join('')}
-                    </div>
+// Update Preview
+function updatePreview() {
+    const template = resumeData.template;
+    let previewHTML = `
+        <div class="template-${template}">
+            <div class="${template}-header">
+                <h1 class="${template}-name">${resumeData.personalInfo.name || 'Your Name'}</h1>
+                <div class="${template}-contact">
+                    ${resumeData.personalInfo.email ? `<span><i class="fas fa-envelope"></i> ${resumeData.personalInfo.email}</span>` : ''}
+                    ${resumeData.personalInfo.phone ? `<span><i class="fas fa-phone"></i> ${resumeData.personalInfo.phone}</span>` : ''}
+                    ${resumeData.personalInfo.location ? `<span><i class="fas fa-map-marker-alt"></i> ${resumeData.personalInfo.location}</span>` : ''}
                 </div>
-            `;
-            editorContent.innerHTML = previewHTML;
+            </div>
+            <div class="${template}-section">
+                <h2 class="${template}-section-title">Skills</h2>
+                <p>${resumeData.skills.length > 0 ? resumeData.skills.join(', ') : 'No skills added yet'}</p>
+            </div>
+            <div class="${template}-section">
+                <h2 class="${template}-section-title">Work Experience</h2>
+                ${resumeData.experience.map(exp => `
+                    <div class="${template}-experience-item">
+                        <h3 class="${template}-job-title">${exp.jobTitle || 'Job Title'}</h3>
+                        <p class="${template}-company">${exp.company || 'Company Name'}</p>
+                        <p class="${template}-date">${exp.startDate || 'MM/YYYY'} - ${exp.endDate || 'MM/YYYY'}</p>
+                        <p class="${template}-description">${exp.description || 'Job description...'}</p>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="${template}-section">
+                <h2 class="${template}-section-title">Education</h2>
+                ${resumeData.education.map(edu => `
+                    <div class="${template}-experience-item">
+                        <h3 class="${template}-job-title">${edu.degree || 'Degree'}</h3>
+                        <p class="${template}-company">${edu.school || 'School Name'}</p>
+                        <p class="${template}-date">${edu.startDate || 'MM/YYYY'} - ${edu.endDate || 'MM/YYYY'}</p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    editorContent.innerHTML = previewHTML;
+}
+
+// Download PDF - FIXED VERSION
+function downloadPDF() {
+    // Create a new div to hold the content for PDF generation
+    const pdfContent = document.createElement('div');
+    pdfContent.id = 'pdf-content';
+    
+    // Copy the editor content but with proper styling for PDF
+    const editorClone = editorContent.cloneNode(true);
+    pdfContent.appendChild(editorClone);
+    
+    // Add CSS for PDF formatting
+    const style = document.createElement('style');
+    style.textContent = `
+        #pdf-content {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: white;
+            color: black;
         }
-
-        // Download PDF - FIXED VERSION
-        function downloadPDF() {
-            // Create a new div to hold the content for PDF generation
-            const pdfContent = document.createElement('div');
-            pdfContent.id = 'pdf-content';
-            
-            // Copy the editor content but with proper styling for PDF
-            const editorClone = editorContent.cloneNode(true);
-            pdfContent.appendChild(editorClone);
-            
-            // Add CSS for PDF formatting
-            const style = document.createElement('style');
-            style.textContent = `
-                #pdf-content {
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 20px;
-                    background: white;
-                    color: black;
-                }
-                
-                .template-apollo, .template-terra, .template-tempe, .template-nova, 
-                .template-classic, .template-modern, .template-professional, 
-                .template-corporate, .template-academic, .template-legal, .template-artistic {
-                    font-family: Arial, sans-serif !important;
-                    color: #000 !important;
-                }
-                
-                .template-apollo .apollo-header, .template-terra .terra-header, 
-                .template-tempe .tempe-header, .template-nova .nova-header,
-                .template-classic .classic-header, .template-modern .modern-header,
-                .template-professional .professional-header, .template-corporate .corporate-header,
-                .template-academic .academic-header, .template-legal .legal-header,
-                .template-artistic .artistic-header {
-                    text-align: center !important;
-                    margin-bottom: 35px !important;
-                    padding-bottom: 25px !important;
-                    border-bottom: 4px solid !important;
-                }
-                
-                .template-apollo .apollo-name, .template-terra .terra-name,
-                .template-tempe .tempe-name, .template-nova .nova-name,
-                .template-classic .classic-name, .template-modern .modern-name,
-                .template-professional .professional-name, .template-corporate .corporate-name,
-                .template-academic .academic-name, .template-legal .legal-name,
-                .template-artistic .artistic-name {
-                    font-size: 2.8rem !important;
-                    font-weight: 800 !important;
-                    margin-bottom: 0.5rem !important;
-                }
-                
-                .template-apollo .apollo-contact, .template-terra .terra-contact,
-                .template-tempe .tempe-contact, .template-nova .nova-contact,
-                .template-classic .classic-contact, .template-modern .modern-contact,
-                .template-professional .professional-contact, .template-corporate .corporate-contact,
-                .template-academic .academic-contact, .template-legal .legal-contact,
-                .template-artistic .artistic-contact {
-                    display: flex !important;
-                    justify-content: center !important;
-                    gap: 2.5rem !important;
-                    margin-top: 1rem !important;
-                    flex-wrap: wrap !important;
-                }
-                
-                .template-apollo .apollo-section, .template-terra .terra-section,
-                .template-tempe .tempe-section, .template-nova .nova-section,
-                .template-classic .classic-section, .template-modern .modern-section,
-                .template-professional .professional-section, .template-corporate .corporate-section,
-                .template-academic .academic-section, .template-legal .legal-section,
-                .template-artistic .artistic-section {
-                    margin-bottom: 30px !important;
-                }
-                
-                .template-apollo .apollo-section-title, .template-terra .terra-section-title,
-                .template-tempe .tempe-section-title, .template-nova .nova-section-title,
-                .template-classic .classic-section-title, .template-modern .modern-section-title,
-                .template-professional .professional-section-title, .template-corporate .corporate-section-title,
-                .template-academic .academic-section-title, .template-legal .legal-section-title,
-                .template-artistic .artistic-section-title {
-                    font-size: 1.6rem !important;
-                    font-weight: 700 !important;
-                    margin-bottom: 15px !important;
-                    position: relative !important;
-                    padding-left: 30px !important;
-                }
-                
-                .template-apollo .apollo-experience-item, .template-terra .terra-experience-item,
-                .template-tempe .tempe-experience-item, .template-nova .nova-experience-item,
-                .template-classic .classic-experience-item, .template-modern .modern-experience-item,
-                .template-professional .professional-experience-item, .template-corporate .corporate-experience-item,
-                .template-academic .academic-experience-item, .template-legal .legal-experience-item,
-                .template-artistic .artistic-experience-item {
-                    margin-bottom: 20px !important;
-                    padding-left: 20px !important;
-                    border-left: 3px solid !important;
-                }
-                
-                .template-apollo .apollo-job-title, .template-terra .terra-job-title,
-                .template-tempe .tempe-job-title, .template-nova .nova-job-title,
-                .template-classic .classic-job-title, .template-modern .modern-job-title,
-                .template-professional .professional-job-title, .template-corporate .corporate-job-title,
-                .template-academic .academic-job-title, .template-legal .legal-job-title,
-                .template-artistic .artistic-job-title {
-                    font-size: 1.4rem !important;
-                    font-weight: 700 !important;
-                }
-                
-                .template-apollo .apollo-company, .template-terra .terra-company,
-                .template-tempe .tempe-company, .template-nova .nova-company,
-                .template-classic .classic-company, .template-modern .modern-company,
-                .template-professional .professional-company, .template-corporate .corporate-company,
-                .template-academic .academic-company, .template-legal .legal-company,
-                .template-artistic .artistic-company {
-                    font-size: 1.2rem !important;
-                    font-weight: 600 !important;
-                }
-                
-                .template-apollo .apollo-date, .template-terra .terra-date,
-                .template-tempe .tempe-date, .template-nova .nova-date,
-                .template-classic .classic-date, .template-modern .modern-date,
-                .template-professional .professional-date, .template-corporate .corporate-date,
-                .template-academic .academic-date, .template-legal .legal-date,
-                .template-artistic .artistic-date {
-                    font-size: 1.1rem !important;
-                    margin-bottom: 10px !important;
-                }
-                
-                .template-apollo .apollo-description, .template-terra .terra-description,
-                .template-tempe .tempe-description, .template-nova .nova-description,
-                .template-classic .classic-description, .template-modern .modern-description,
-                .template-professional .professional-description, .template-corporate .corporate-description,
-                .template-academic .academic-description, .template-legal .legal-description,
-                .template-artistic .artistic-description {
-                    color: #475569 !important;
-                    margin-left: 15px !important;
-                }
-                
-                .template-apollo .apollo-section-title::before,
-                .template-terra .terra-section-title::before,
-                .template-tempe .tempe-section-title::before,
-                .template-nova .nova-section-title::before,
-                .template-classic .classic-section-title::before,
-                .template-modern .modern-section-title::before,
-                .template-professional .professional-section-title::before,
-                .template-corporate .corporate-section-title::before,
-                .template-academic .academic-section-title::before,
-                .template-legal .legal-section-title::before,
-                .template-artistic .artistic-section-title::before {
-                    content: "" !important;
-                    position: absolute !important;
-                    left: 0 !important;
-                    top: 50% !important;
-                    transform: translateY(-50%) !important;
-                    width: 20px !important;
-                    height: 3px !important;
-                }
-                
-                .template-apollo .apollo-section-title::before { background: #3a0ca3 !important; }
-                .template-terra .terra-section-title::before { background: #ea580c !important; }
-                .template-tempe .tempe-section-title::before { background: #059669 !important; }
-                .template-nova .nova-section-title::before { background: #db2777 !important; }
-                .template-classic .classic-section-title::before { background: #000000 !important; }
-                .template-modern .modern-section-title::before { background: #ea580c !important; }
-                .template-professional .professional-section-title::before { background: #c2410c !important; }
-                .template-corporate .corporate-section-title::before { background: #fde68a !important; }
-                .template-academic .academic-section-title::before { background: #7c3aed !important; }
-                .template-legal .legal-section-title::before { background: #059669 !important; }
-                .template-artistic .artistic-section-title::before { background: #f59e0b !important; }
-            `;
-            
-            pdfContent.appendChild(style);
-            
-            // Add to document temporarily
-            document.body.appendChild(pdfContent);
-            
-            // Generate PDF
-            const options = {
-                margin: 10,
-                filename: 'resume.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2,
-                    useCORS: true,
-                    allowTaint: true
-                },
-                jsPDF: { 
-                    unit: 'mm', 
-                    format: 'a4', 
-                    orientation: 'portrait' 
-                }
-            };
-            
-            html2pdf().from(pdfContent).set(options).save();
-            
-            // Remove temporary element
-            document.body.removeChild(pdfContent);
+        
+        .template-apollo, .template-terra, .template-tempe, .template-nova, 
+        .template-classic, .template-modern, .template-professional, 
+        .template-corporate, .template-academic, .template-legal, .template-artistic {
+            font-family: Arial, sans-serif !important;
+            color: #000 !important;
         }
+        
+        .template-apollo .apollo-header, .template-terra .terra-header, 
+        .template-tempe .tempe-header, .template-nova .nova-header,
+        .template-classic .classic-header, .template-modern .modern-header,
+        .template-professional .professional-header, .template-corporate .corporate-header,
+        .template-academic .academic-header, .template-legal .legal-header,
+        .template-artistic .artistic-header {
+            text-align: center !important;
+            margin-bottom: 35px !important;
+            padding-bottom: 25px !important;
+            border-bottom: 4px solid !important;
+        }
+        
+        .template-apollo .apollo-name, .template-terra .terra-name,
+        .template-tempe .tempe-name, .template-nova .nova-name,
+        .template-classic .classic-name, .template-modern .modern-name,
+        .template-professional .professional-name, .template-corporate .corporate-name,
+        .template-academic .academic-name, .template-legal .legal-name,
+        .template-artistic .artistic-name {
+            font-size: 2.8rem !important;
+            font-weight: 800 !important;
+            margin-bottom: 0.5rem !important;
+        }
+        
+        .template-apollo .apollo-contact, .template-terra .terra-contact,
+        .template-tempe .tempe-contact, .template-nova .nova-contact,
+        .template-classic .classic-contact, .template-modern .modern-contact,
+        .template-professional .professional-contact, .template-corporate .corporate-contact,
+        .template-academic .academic-contact, .template-legal .legal-contact,
+        .template-artistic .artistic-contact {
+            display: flex !important;
+            justify-content: center !important;
+            gap: 2.5rem !important;
+            margin-top: 1rem !important;
+            flex-wrap: wrap !important;
+        }
+        
+        .template-apollo .apollo-section, .template-terra .terra-section,
+        .template-tempe .tempe-section, .template-nova .nova-section,
+        .template-classic .classic-section, .template-modern .modern-section,
+        .template-professional .professional-section, .template-corporate .corporate-section,
+        .template-academic .academic-section, .template-legal .legal-section,
+        .template-artistic .artistic-section {
+            margin-bottom: 30px !important;
+        }
+        
+        .template-apollo .apollo-section-title, .template-terra .terra-section-title,
+        .template-tempe .tempe-section-title, .template-nova .nova-section-title,
+        .template-classic .classic-section-title, .template-modern .modern-section-title,
+        .template-professional .professional-section-title, .template-corporate .corporate-section-title,
+        .template-academic .academic-section-title, .template-legal .legal-section-title,
+        .template-artistic .artistic-section-title {
+            font-size: 1.6rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 15px !important;
+            position: relative !important;
+            padding-left: 30px !important;
+        }
+        
+        .template-apollo .apollo-experience-item, .template-terra .terra-experience-item,
+        .template-tempe .tempe-experience-item, .template-nova .nova-experience-item,
+        .template-classic .classic-experience-item, .template-modern .modern-experience-item,
+        .template-professional .professional-experience-item, .template-corporate .corporate-experience-item,
+        .template-academic .academic-experience-item, .template-legal .legal-experience-item,
+        .template-artistic .artistic-experience-item {
+            margin-bottom: 20px !important;
+            padding-left: 20px !important;
+            border-left: 3px solid !important;
+        }
+        
+        .template-apollo .apollo-job-title, .template-terra .terra-job-title,
+        .template-tempe .tempe-job-title, .template-nova .nova-job-title,
+        .template-classic .classic-job-title, .template-modern .modern-job-title,
+        .template-professional .professional-job-title, .template-corporate .corporate-job-title,
+        .template-academic .academic-job-title, .template-legal .legal-job-title,
+        .template-artistic .artistic-job-title {
+            font-size: 1.4rem !important;
+            font-weight: 700 !important;
+        }
+        
+        .template-apollo .apollo-company, .template-terra .terra-company,
+        .template-tempe .tempe-company, .template-nova .nova-company,
+        .template-classic .classic-company, .template-modern .modern-company,
+        .template-professional .professional-company, .template-corporate .corporate-company,
+        .template-academic .academic-company, .template-legal .legal-company,
+        .template-artistic .artistic-company {
+            font-size: 1.2rem !important;
+            font-weight: 600 !important;
+        }
+        
+        .template-apollo .apollo-date, .template-terra .terra-date,
+        .template-tempe .tempe-date, .template-nova .nova-date,
+        .template-classic .classic-date, .template-modern .modern-date,
+        .template-professional .professional-date, .template-corporate .corporate-date,
+        .template-academic .academic-date, .template-legal .legal-date,
+        .template-artistic .artistic-date {
+            font-size: 1.1rem !important;
+            margin-bottom: 10px !important;
+        }
+        
+        .template-apollo .apollo-description, .template-terra .terra-description,
+        .template-tempe .tempe-description, .template-nova .nova-description,
+        .template-classic .classic-description, .template-modern .modern-description,
+        .template-professional .professional-description, .template-corporate .corporate-description,
+        .template-academic .academic-description, .template-legal .legal-description,
+        .template-artistic .artistic-description {
+            color: #475569 !important;
+            margin-left: 15px !important;
+        }
+        
+        .template-apollo .apollo-section-title::before,
+        .template-terra .terra-section-title::before,
+        .template-tempe .tempe-section-title::before,
+        .template-nova .nova-section-title::before,
+        .template-classic .classic-section-title::before,
+        .template-modern .modern-section-title::before,
+        .template-professional .professional-section-title::before,
+        .template-corporate .corporate-section-title::before,
+        .template-academic .academic-section-title::before,
+        .template-legal .legal-section-title::before,
+        .template-artistic .artistic-section-title::before {
+            content: "" !important;
+            position: absolute !important;
+            left: 0 !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: 20px !important;
+            height: 3px !important;
+        }
+        
+        .template-apollo .apollo-section-title::before { background: #3a0ca3 !important; }
+        .template-terra .terra-section-title::before { background: #ea580c !important; }
+        .template-tempe .tempe-section-title::before { background: #059669 !important; }
+        .template-nova .nova-section-title::before { background: #db2777 !important; }
+        .template-classic .classic-section-title::before { background: #000000 !important; }
+        .template-modern .modern-section-title::before { background: #ea580c !important; }
+        .template-professional .professional-section-title::before { background: #c2410c !important; }
+        .template-corporate .corporate-section-title::before { background: #fde68a !important; }
+        .template-academic .academic-section-title::before { background: #7c3aed !important; }
+        .template-legal .legal-section-title::before { background: #059669 !important; }
+        .template-artistic .artistic-section-title::before { background: #f59e0b !important; }
+    `;
+    
+    pdfContent.appendChild(style);
+    
+    // Add to document temporarily
+    document.body.appendChild(pdfContent);
+    
+    // Generate PDF
+    const options = {
+        margin: 10,
+        filename: 'resume.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+            scale: 2,
+            useCORS: true,
+            allowTaint: true
+        },
+        jsPDF: { 
+            unit: 'mm', 
+            format: 'a4', 
+            orientation: 'portrait' 
+        }
+    };
+    
+    html2pdf().from(pdfContent).set(options).save();
+    
+    // Remove temporary element
+    document.body.removeChild(pdfContent);
+}
 
-        // Event Listeners
-        document.addEventListener('input', (e) => {
-            if (e.target.classList.contains('exp-job-title') ||
-                e.target.classList.contains('exp-company') ||
-                e.target.classList.contains('exp-start-date') ||
-                e.target.classList.contains('exp-end-date') ||
-                e.target.classList.contains('exp-description')) {
-                const index = parseInt(e.target.getAttribute('data-index'));
-                resumeData.experience[index][e.target.classList[2].split('-')[2]] = e.target.value;
-                updatePreview();
-            } else if (e.target.classList.contains('edu-school') ||
-                       e.target.classList.contains('edu-degree') ||
-                       e.target.classList.contains('edu-start-date') ||
-                       e.target.classList.contains('edu-end-date')) {
-                const index = parseInt(e.target.getAttribute('data-index'));
-                resumeData.education[index][e.target.classList[2].split('-')[2]] = e.target.value;
-                updatePreview();
-            } else if (e.target.classList.contains('project-name') ||
-                       e.target.classList.contains('project-technologies') ||
-                       e.target.classList.contains('project-description') ||
-                       e.target.classList.contains('project-link')) {
-                const index = parseInt(e.target.getAttribute('data-index'));
-                resumeData.projects[index][e.target.classList[2].split('-')[2]] = e.target.value;
-                updatePreview();
-            } else if (e.target.classList.contains('ref-name') ||
-                       e.target.classList.contains('ref-position') ||
-                       e.target.classList.contains('ref-company') ||
-                       e.target.classList.contains('ref-email') ||
-                       e.target.classList.contains('ref-phone')) {
-                const index = parseInt(e.target.getAttribute('data-index'));
-                resumeData.references[index][e.target.classList[2].split('-')[2]] = e.target.value;
-                updatePreview();
-            }
-        });
-
-        // Remove Items
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('remove-item')) {
-                const index = parseInt(e.target.getAttribute('data-index'));
-                const parent = e.target.closest('.form-group, .project-item, .reference-item');
-                if (parent && parent.parentNode) {
-                    parent.parentNode.removeChild(parent);
-                }
-                // Remove from data
-                if (e.target.closest('#experience-container')) {
-                    resumeData.experience.splice(index, 1);
-                } else if (e.target.closest('#education-container')) {
-                    resumeData.education.splice(index, 1);
-                } else if (e.target.closest('#projects-container')) {
-                    resumeData.projects.splice(index, 1);
-                } else if (e.target.closest('#references-container')) {
-                    resumeData.references.splice(index, 1);
-                }
-                updatePreview();
-            }
-        });
-
-        // Add Experience
-        document.getElementById('add-experience').addEventListener('click', () => {
-            resumeData.experience.push({
-                jobTitle: '',
-                company: '',
-                startDate: '',
-                endDate: '',
-                description: ''
-            });
-            renderExperienceSection();
-            updatePreview();
-        });
-
-        // Add Education
-        document.getElementById('add-education').addEventListener('click', () => {
-            resumeData.education.push({
-                school: '',
-                degree: '',
-                startDate: '',
-                endDate: ''
-            });
-            renderEducationSection();
-            updatePreview();
-        });
-
-        // Add Project
-        document.getElementById('add-project').addEventListener('click', () => {
-            resumeData.projects.push({
-                name: '',
-                technologies: '',
-                description: '',
-                link: ''
-            });
-            renderProjectsSection();
-            updatePreview();
-        });
-
-        // Add Reference
-        document.getElementById('add-reference').addEventListener('click', () => {
-            resumeData.references.push({
-                name: '',
-                position: '',
-                company: '',
-                email: '',
-                phone: ''
-            });
-            renderReferencesSection();
-            updatePreview();
-        });
-
-        // Skills Input
-        skillsInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' || e.key === ',') {
-                e.preventDefault();
-                const value = e.target.value.trim();
-                if (value && !resumeData.skills.includes(value)) {
-                    resumeData.skills.push(value);
-                    e.target.value = '';
-                    renderSkills();
-                    updatePreview();
-                }
-            }
-        });
-
-        // Editor Toolbar
-        document.querySelectorAll('.toolbar-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                const command = button.getAttribute('data-command');
-                if (command) {
-                    document.execCommand(command, false, null);
-                    editorContent.focus();
-                }
-            });
-        });
-
-        // Template Selection
-        templateItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const template = item.getAttribute('data-template');
-                resumeData.template = template;
-                templateItems.forEach(t => t.classList.remove('selected'));
-                item.classList.add('selected');
-                updatePreview();
-            });
-        });
-
-        // Initialize
+// Event Listeners
+document.addEventListener('input', (e) => {
+    if (e.target.classList.contains('exp-job-title') ||
+        e.target.classList.contains('exp-company') ||
+        e.target.classList.contains('exp-start-date') ||
+        e.target.classList.contains('exp-end-date') ||
+        e.target.classList.contains('exp-description')) {
+        const index = parseInt(e.target.getAttribute('data-index'));
+        resumeData.experience[index][e.target.classList[2].split('-')[2]] = e.target.value;
         updatePreview();
-        renderExperienceSection();
-        renderEducationSection();
-        renderProjectsSection();
-        renderReferencesSection();
-        renderSkills();
-        
-        // Set initial template selection
-        document.querySelector('.template-item[data-template="apollo"]').classList.add('selected');
-        
-        // Add event listener for download PDF
-        downloadPdfBtn.addEventListener('click', downloadPDF);
+    } else if (e.target.classList.contains('edu-school') ||
+               e.target.classList.contains('edu-degree') ||
+               e.target.classList.contains('edu-start-date') ||
+               e.target.classList.contains('edu-end-date')) {
+        const index = parseInt(e.target.getAttribute('data-index'));
+        resumeData.education[index][e.target.classList[2].split('-')[2]] = e.target.value;
+        updatePreview();
+    } else if (e.target.classList.contains('project-name') ||
+               e.target.classList.contains('project-technologies') ||
+               e.target.classList.contains('project-description') ||
+               e.target.classList.contains('project-link')) {
+        const index = parseInt(e.target.getAttribute('data-index'));
+        resumeData.projects[index][e.target.classList[2].split('-')[2]] = e.target.value;
+        updatePreview();
+    } else if (e.target.classList.contains('ref-name') ||
+               e.target.classList.contains('ref-position') ||
+               e.target.classList.contains('ref-company') ||
+               e.target.classList.contains('ref-email') ||
+               e.target.classList.contains('ref-phone')) {
+        const index = parseInt(e.target.getAttribute('data-index'));
+        resumeData.references[index][e.target.classList[2].split('-')[2]] = e.target.value;
+        updatePreview();
+    }
+});
+
+// Remove Items
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-item')) {
+        const index = parseInt(e.target.getAttribute('data-index'));
+        const parent = e.target.closest('.form-group, .project-item, .reference-item');
+        if (parent && parent.parentNode) {
+            parent.parentNode.removeChild(parent);
+        }
+        // Remove from data
+        if (e.target.closest('#experience-container')) {
+            resumeData.experience.splice(index, 1);
+        } else if (e.target.closest('#education-container')) {
+            resumeData.education.splice(index, 1);
+        } else if (e.target.closest('#projects-container')) {
+            resumeData.projects.splice(index, 1);
+        } else if (e.target.closest('#references-container')) {
+            resumeData.references.splice(index, 1);
+        }
+        updatePreview();
+    }
+});
+
+// Add Experience
+document.getElementById('add-experience').addEventListener('click', () => {
+    resumeData.experience.push({
+        jobTitle: '',
+        company: '',
+        startDate: '',
+        endDate: '',
+        description: ''
+    });
+    renderExperienceSection();
+    updatePreview();
+});
+
+// Add Education
+document.getElementById('add-education').addEventListener('click', () => {
+    resumeData.education.push({
+        school: '',
+        degree: '',
+        startDate: '',
+        endDate: ''
+    });
+    renderEducationSection();
+    updatePreview();
+});
+
+// Add Project
+document.getElementById('add-project').addEventListener('click', () => {
+    resumeData.projects.push({
+        name: '',
+        technologies: '',
+        description: '',
+        link: ''
+    });
+    renderProjectsSection();
+    updatePreview();
+});
+
+// Add Reference
+document.getElementById('add-reference').addEventListener('click', () => {
+    resumeData.references.push({
+        name: '',
+        position: '',
+        company: '',
+        email: '',
+        phone: ''
+    });
+    renderReferencesSection();
+    updatePreview();
+});
+
+// Skills Input
+skillsInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' || e.key === ',') {
+        e.preventDefault();
+        const value = e.target.value.trim();
+        if (value && !resumeData.skills.includes(value)) {
+            resumeData.skills.push(value);
+            e.target.value = '';
+            renderSkills();
+            updatePreview();
+        }
+    }
+});
+
+// Editor Toolbar
+document.querySelectorAll('.toolbar-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const command = button.getAttribute('data-command');
+        if (command) {
+            document.execCommand(command, false, null);
+            editorContent.focus();
+        }
+    });
+});
+
+// Template Selection
+templateItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const template = item.getAttribute('data-template');
+        resumeData.template = template;
+        templateItems.forEach(t => t.classList.remove('selected'));
+        item.classList.add('selected');
+        updatePreview();
+    });
+});
+
+// Initialize
+updatePreview();
+renderExperienceSection();
+renderEducationSection();
+renderProjectsSection();
+renderReferencesSection();
+renderSkills();
+
+// Set initial template selection
+document.querySelector('.template-item[data-template="apollo"]').classList.add('selected');
+
+// Add event listener for download PDF
+downloadPdfBtn.addEventListener('click', downloadPDF);
     </script>
 </body>
 </html>
